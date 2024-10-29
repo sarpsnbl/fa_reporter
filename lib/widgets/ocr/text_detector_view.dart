@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:fa_reporter/widgets/recognized_id_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
@@ -103,6 +104,11 @@ class _TextRecognizerViewState extends State<TextRecognizerView> {
         inputImage.metadata!.size,
         inputImage.metadata!.rotation,
         _cameraLensDirection,
+        (recognizedID) => showDialog(
+          context: context,
+          builder: (context) => DetectedIDDialog(recognizedID: recognizedID),
+        ),
+        false
       );
       _customPaint = CustomPaint(painter: painter);
     } else {

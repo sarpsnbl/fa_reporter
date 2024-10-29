@@ -3,8 +3,11 @@ import 'dart:ui';
 import 'dart:ui' as ui;
 
 import 'package:camera/camera.dart';
+import 'package:fa_reporter/widgets/recognized_id_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:path/path.dart';
 
 import 'coordinates_translator.dart';
 
@@ -14,12 +17,16 @@ class TextRecognizerPainter extends CustomPainter {
     this.imageSize,
     this.rotation,
     this.cameraLensDirection,
+    this.showDetectedIDDialog,
+    this.isDetectedIDDialogShown,
   );
 
   final RecognizedText recognizedText;
   final Size imageSize;
   final InputImageRotation rotation;
   final CameraLensDirection cameraLensDirection;
+  final Function(String) showDetectedIDDialog;
+  bool isDetectedIDDialogShown;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -176,10 +183,32 @@ class TextRecognizerPainter extends CustomPainter {
             top),
       );
     }
+    
+    String recognizedID = idDetected(recognizedText);
+    if (recognizedID != "-1" && !isDetectedIDDialogShown) {
+      // If the ID is detected and the dialog is not shown, display the dialog
+      //TODO: Make the dialog shown only once until the user presses ok.
+      //(make the dialog unstackable.)
+      Future.delayed(Duration.zero, () {
+        showDetectedIDDialog(recognizedID);
+      });
+    }
   }
 
   @override
   bool shouldRepaint(TextRecognizerPainter oldDelegate) {
     return oldDelegate.recognizedText != recognizedText;
+  }
+
+  //returns -1 if no id is recognized. Returns the 10-digit ID of the fixed asset otherwise.
+  String idDetected(RecognizedText recognizedText) {
+    // Regular expression to match exactly 10 consecutive digits
+    final regex = RegExp(r'\b\d{10}\b');
+
+    // Find the first match of the 10-digit ID
+    final match = regex.firstMatch(recognizedText.text);
+
+    // Return the ID number if found, otherwise return "-1"
+    return match != null ? match.group(0)! : "-1";
   }
 }

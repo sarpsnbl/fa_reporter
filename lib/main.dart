@@ -27,7 +27,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Google ML Kit Demo App'),
+        title: const Text('Fixed Asset Reporter Demo App'),
         centerTitle: true,
         elevation: 0,
       ),
