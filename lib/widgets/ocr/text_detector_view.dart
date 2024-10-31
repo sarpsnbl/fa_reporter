@@ -47,14 +47,11 @@ class _TextRecognizerViewState extends State<TextRecognizerView> {
               children: [
                 const Spacer(),
                 Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black54,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: _buildDropdown(),
-                    )),
+                  decoration: BoxDecoration(
+                    color: Colors.black54,
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
                 const Spacer(),
               ],
             )),
@@ -100,16 +97,12 @@ class _TextRecognizerViewState extends State<TextRecognizerView> {
     if (inputImage.metadata?.size != null &&
         inputImage.metadata?.rotation != null) {
       final painter = TextRecognizerPainter(
-        recognizedText,
-        inputImage.metadata!.size,
-        inputImage.metadata!.rotation,
-        _cameraLensDirection,
-        (recognizedID) => showDialog(
-          context: context,
-          builder: (context) => DetectedIDDialog(recognizedID: recognizedID),
-        ),
-        false
-      );
+          recognizedText,
+          inputImage.metadata!.size,
+          inputImage.metadata!.rotation,
+          _cameraLensDirection,
+          showDetectedIDDialog,
+          false);
       _customPaint = CustomPaint(painter: painter);
     } else {
       _text = 'Recognized text:\n\n${recognizedText.text}';
@@ -120,5 +113,16 @@ class _TextRecognizerViewState extends State<TextRecognizerView> {
     if (mounted) {
       setState(() {});
     }
+  }
+
+  Future<dynamic> showDetectedIDDialog(String recognizedID) {
+    popDetectorView();
+    return showDialog(
+        context: context,
+        builder: (context) => DetectedIDDialog(recognizedID: recognizedID));
+  }
+
+  void popDetectorView() {
+    Navigator.of(context).pop();
   }
 }

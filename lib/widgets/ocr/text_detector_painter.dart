@@ -183,12 +183,9 @@ class TextRecognizerPainter extends CustomPainter {
             top),
       );
     }
-    
+
     String recognizedID = idDetected(recognizedText);
     if (recognizedID != "-1" && !isDetectedIDDialogShown) {
-      // If the ID is detected and the dialog is not shown, display the dialog
-      //TODO: Make the dialog shown only once until the user presses ok.
-      //(make the dialog unstackable.)
       Future.delayed(Duration.zero, () {
         showDetectedIDDialog(recognizedID);
       });

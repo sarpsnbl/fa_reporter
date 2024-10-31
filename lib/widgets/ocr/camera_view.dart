@@ -6,14 +6,15 @@ import 'package:flutter/services.dart';
 import 'package:google_mlkit_commons/google_mlkit_commons.dart';
 
 class CameraView extends StatefulWidget {
-  const CameraView(
-      {super.key,
-      required this.customPaint,
-      required this.onImage,
-      this.onCameraFeedReady,
-      this.onDetectorViewModeChanged,
-      this.onCameraLensDirectionChanged,
-      this.initialCameraLensDirection = CameraLensDirection.back});
+  const CameraView({
+    super.key,
+    required this.customPaint,
+    required this.onImage,
+    this.onCameraFeedReady,
+    this.onDetectorViewModeChanged,
+    this.onCameraLensDirectionChanged,
+    this.initialCameraLensDirection = CameraLensDirection.back,
+  });
 
   final CustomPaint? customPaint;
   final Function(InputImage inputImage) onImage;
@@ -81,20 +82,14 @@ class _CameraViewState extends State<CameraView> {
         fit: StackFit.expand,
         children: <Widget>[
           Center(
-            child: _changingCameraLens
-                ? const Center(
-                    child: Text('Changing camera lens'),
-                  )
-                : CameraPreview(
-                    _controller!,
-                    child: widget.customPaint,
-                  ),
+            child: CameraPreview(
+              _controller!,
+              child: widget.customPaint,
+            ),
           ),
           _backButton(),
-          _switchLiveCameraToggle(),
+          //_switchLiveCameraToggle(),
           _detectionViewModeToggle(),
-          _zoomControl(),
-          _exposureControl(),
         ],
       ),
     );
@@ -363,12 +358,10 @@ class _CameraViewState extends State<CameraView> {
     // * bgra8888 for iOS
     if (format == null ||
         (Platform.isAndroid && format != InputImageFormat.nv21) ||
-        (Platform.isIOS && format != InputImageFormat.bgra8888))
-        {
-          print(format);
-          return null;
-        }
-         
+        (Platform.isIOS && format != InputImageFormat.bgra8888)) {
+      print(format);
+      return null;
+    }
 
     // since format is constraint to nv21 or bgra8888, both only have one plane
     if (image.planes.length != 1) return null;

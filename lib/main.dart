@@ -42,7 +42,7 @@ class Home extends StatelessWidget {
                     title: const Text('Vision APIs'),
                     children: [
                       if (Platform.isAndroid)
-                      CustomCard('Text Recognition', TextRecognizerView()),
+                        CustomCard('Text Recognition', TextRecognizerView()),
                     ],
                   ),
                   const SizedBox(
@@ -63,7 +63,8 @@ class CustomCard extends StatelessWidget {
   final Widget _viewPage;
   final bool featureCompleted;
 
-  const CustomCard(this._label, this._viewPage, {super.key, this.featureCompleted = true});
+  const CustomCard(this._label, this._viewPage,
+      {super.key, this.featureCompleted = true});
 
   @override
   Widget build(BuildContext context) {
@@ -74,13 +75,13 @@ class CustomCard extends StatelessWidget {
         tileColor: Theme.of(context).primaryColor,
         title: Text(
           _label,
-          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style:
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         onTap: () {
           if (!featureCompleted) {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content:
-                    Text('This feature has not been implemented yet')));
+                content: Text('This feature has not been implemented yet')));
           } else {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => _viewPage));
