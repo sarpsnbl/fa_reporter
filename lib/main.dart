@@ -27,7 +27,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Fixed Asset Reporter Demo App'),
+        title: const Text('Demirbaş Sayım Raporlama Sistemi'),
         centerTitle: true,
         elevation: 0,
       ),
@@ -39,10 +39,10 @@ class Home extends StatelessWidget {
               child: Column(
                 children: [
                   ExpansionTile(
-                    title: const Text('Vision APIs'),
+                    title: const Text('Taramaya Başlayın'),
                     children: [
                       if (Platform.isAndroid)
-                        CustomCard('Text Recognition', TextRecognizerView()),
+                        CustomCard('Nesne Numarası Tarama', TextRecognizerView()),
                     ],
                   ),
                   const SizedBox(
