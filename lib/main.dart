@@ -1,6 +1,10 @@
+import 'package:fa_reporter/excel/excel_example.dart';
 import 'package:flutter/material.dart';
 import 'widgets/ocr/text_detector_view.dart';
 import 'dart:io';
+import 'package:excel/excel.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,9 +49,8 @@ class Home extends StatelessWidget {
                         CustomCard('Nesne Numarası Tarama', TextRecognizerView()),
                     ],
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
+                  ExcelShareButton(), // Added button for sharing Excel file
                 ],
               ),
             ),
