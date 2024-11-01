@@ -43,4 +43,4 @@ app.*.map.json
 /android/app/release
 
 # ARGE DATA
-**.xlsx
+**/lib/excel/data.xlsx
