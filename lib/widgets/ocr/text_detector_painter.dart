@@ -195,6 +195,8 @@ class TextRecognizerPainter extends CustomPainter {
 
   //returns -1 if no id is recognized. Returns the 10-digit ID of the fixed asset otherwise.
   String idDetected(RecognizedText recognizedText) {
+    
+    
     // Regular expression to match exactly 10 consecutive digits
     final regex = RegExp(r'\b\d{10}\b');
 

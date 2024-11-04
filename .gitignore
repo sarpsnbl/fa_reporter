@@ -44,3 +44,4 @@ app.*.map.json
 
 # ARGE DATA
 **/lib/excel/data.xlsx
+**.xlsx

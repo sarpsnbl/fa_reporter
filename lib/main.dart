@@ -1,10 +1,12 @@
 import 'package:fa_reporter/excel/excel_example.dart';
+import 'package:fa_reporter/widgets/entry_screen/first_screen.dart';
 import 'package:flutter/material.dart';
 import 'widgets/ocr/text_detector_view.dart';
 import 'dart:io';
 import 'package:excel/excel.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +53,17 @@ class Home extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   ExcelShareButton(), // Added button for sharing Excel file
+                  const SizedBox(height: 20), // Spacer
+                  // Button to navigate to the FirstScreen
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => FirstScreen()),
+                      );
+                    },
+                    child: const Text('İlk Ekrana Git'),
+                  ),
                 ],
               ),
             ),

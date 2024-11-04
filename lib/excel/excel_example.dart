@@ -23,7 +23,7 @@ class ExcelShareButton extends StatelessWidget {
     return file;
   }
 
-  Future<void> _shareExcelFile() async {
+  Future<void> shareExcelFile() async {
     final file = await _createExcelFile();
     Share.shareXFiles([XFile(file.path)], text: 'Here is the Excel file.');
   }
@@ -31,7 +31,7 @@ class ExcelShareButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: _shareExcelFile,
+      onPressed: shareExcelFile,
       child: const Text('Excel Dosyasını Paylaş'),
     );
   }
