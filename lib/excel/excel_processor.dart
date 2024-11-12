@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:excel/excel.dart';
+import 'package:fa_reporter/utils/user_getset.dart';
 
 var id = "253030030";
 var wantedColumns = [
@@ -16,31 +17,45 @@ var wantedColumns = [
   "Sayım Numarası"
 ];
 
-void main() async {
+void main(List<String> args) {
+  beginExcel(id);
+}
+
+List<String> beginExcel(recognizedID) {
   var filePath = 'excel test\\excel_processor\\lib\\Arge Sayım Data v.1.xlsx';
   var excel = readExcel(filePath);
 
-  List<CellValue?> entry = getRowById(excel, id);
-  List<CellValue?> updatedRow = [];
+  List<CellValue?> entry = getRowById(excel, recognizedID);
 
   List<String> row = [];
   if (entry.isNotEmpty) {
     row = entry.map((cell) => cell.toString()).toList();
-  } else {
-    print('Row with ID $id not found.');
-  }
+  } else {}
 
-  updatedRow = row.map((toElement) => TextCellValue(toElement)).toList();
-
-  addToExcelReport(updatedRow);
-
-  print('Excel processing completed.');
+  return row;
 }
 
 Excel readExcel(String filePath) {
   var bytes = File(filePath).readAsBytesSync();
   var excel = Excel.decodeBytes(bytes);
   return excel;
+}
+
+void saveReport(row) {
+  excelReport = getExcelReport();
+  // convert String list list to Cell list list
+  List<List<CellValue?>> updatedRows = [];
+  for (int i = 0; i < excelReport.length; i++) {
+    updatedRows
+        .add(excelReport[i].map((element) => TextCellValue(element)).toList());
+  }
+  writeExcelReport(updatedRows);
+}
+
+List<String> modifyExcel(column, value, data) {
+  data[column] = value;
+
+  return data;
 }
 
 List<CellValue?> getRowById(Excel excel, String id) {
@@ -74,9 +89,14 @@ List<CellValue?> getRowById(Excel excel, String id) {
   return [];
 }
 
-void addToExcelReport(List<CellValue?> row) {
+void writeExcelReport(List<List<CellValue?>> rows) {
   // Define the file path
   String outputFilePath = 'excel test/excel_processor/lib/output.xlsx';
+  var newfilepath = "";
+  //replace output file path with new file path
+  String from = 'output';
+  String replace = 'sayim' + getTollNumber() + '_' + getUserCurrentDate();
+  outputFilePath = outputFilePath.replaceAll(from, replace);
   var file = File(outputFilePath);
 
   // Create or load the Excel instance
@@ -101,7 +121,7 @@ void addToExcelReport(List<CellValue?> row) {
   }
 
   // Add the new row of data
-  sheet.appendRow(row);
+  rows.map((row) => sheet.appendRow(row));
 
   // Save the file
   file.createSync(recursive: true); // Ensure the directory exists
@@ -112,6 +132,4 @@ void addToExcelReport(List<CellValue?> row) {
       ..createSync(recursive: true)
       ..writeAsBytesSync(fileBytes);
   }
-
-  print('Excel file updated at $outputFilePath');
 }

@@ -19,7 +19,7 @@ class EntryConfirmationPopup extends StatelessWidget {
           onPressed: () {
             // Handle "Sonraki Demirbaşı Tara" action
             Navigator.push(
-              context, 
+              context,
               MaterialPageRoute(builder: (context) => TextRecognizerView()),
             );
           },
@@ -29,7 +29,7 @@ class EntryConfirmationPopup extends StatelessWidget {
           onPressed: () {
             // Handle "Öncekileri Gör" action
             Navigator.push(
-              context, 
+              context,
               MaterialPageRoute(builder: (context) => PreviousDataView()),
             );
           },
@@ -39,8 +39,9 @@ class EntryConfirmationPopup extends StatelessWidget {
           onPressed: () {
             // Handle "Sayımı Bitir" action
             Navigator.push(
-              context, 
-              MaterialPageRoute(builder: (context) => EndInventoryCountingView()),
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EndInventoryCountingView()),
             );
           },
           child: Text('Sayımı Bitir'),

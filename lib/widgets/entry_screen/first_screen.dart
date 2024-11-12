@@ -1,6 +1,8 @@
-import 'package:fa_reporter/utils/time_getter.dart';
+// ignore_for_file: prefer_const_constructors
+
+import 'package:fa_reporter/utils/user_getset.dart';
 import 'package:fa_reporter/widgets/data_entry/previous_data_view.dart';
-import 'package:flutter/material.dart';// Import the PreviousDataView class
+import 'package:flutter/material.dart'; // Import the PreviousDataView class
 
 class FirstScreen extends StatefulWidget {
   @override
@@ -9,7 +11,8 @@ class FirstScreen extends StatefulWidget {
 
 class _FirstScreenState extends State<FirstScreen> {
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController inventoryNumberController = TextEditingController();
+  final TextEditingController inventoryNumberController =
+      TextEditingController();
   String? selectedLocation; // Variable to hold the selected dropdown value
 
   @override
@@ -35,6 +38,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 border: OutlineInputBorder(),
                 hintText: "İsminizi girin",
               ),
+              onChanged: (value) => setUserName(value),
             ),
             SizedBox(height: 20), // Spacer
             Text("Sayım No:"),
@@ -44,7 +48,9 @@ class _FirstScreenState extends State<FirstScreen> {
                 border: OutlineInputBorder(),
                 hintText: "Sayım numarasını girin",
               ),
-              keyboardType: TextInputType.number, // Numeric keyboard for numbers
+              keyboardType:
+                  TextInputType.number, // Numeric keyboard for numbers
+              onChanged: (value) => setTollNumber(value),
             ),
             SizedBox(height: 20), // Spacer
             Text("Sayım Lokasyonunuzu Seçin:"),
@@ -52,7 +58,12 @@ class _FirstScreenState extends State<FirstScreen> {
               value: selectedLocation,
               hint: Text("Seçin"),
               isExpanded: true,
-              items: <String>['foo', 'bar', 'faz'].map<DropdownMenuItem<String>>((String value) {
+              items: <String>[
+                'ARGE MÜDÜRLÜK',
+                'ARGE PERFORMANS',
+                'ARGE PME',
+                "ARGE POLİMER"
+              ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
@@ -61,6 +72,7 @@ class _FirstScreenState extends State<FirstScreen> {
               onChanged: (String? newValue) {
                 setState(() {
                   selectedLocation = newValue; // Update selected location
+                  setUserLocation(selectedLocation);
                 });
               },
             ),

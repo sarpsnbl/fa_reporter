@@ -1,5 +1,11 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:fa_reporter/widgets/data_entry/entry_confirmation_popup.dart';
 import 'package:flutter/material.dart';
+import 'package:fa_reporter/excel/excel_processor.dart';
+import 'package:fa_reporter/utils/user_getset.dart';
+
+// TODO: Debug all this stuff
 
 class DataEntryView extends StatelessWidget {
   final String recognizedID;
@@ -8,6 +14,10 @@ class DataEntryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> data = beginExcel(recognizedID);
+    data[9] = getUserCurrentDate();
+    data[7] = getUserLocation();
+    data[10] = getTollNumber();
     return Scaffold(
       appBar: AppBar(
         title: Text("Demirbaş Girişi"),
@@ -20,46 +30,54 @@ class DataEntryView extends StatelessWidget {
               'Nesne Numarası: $recognizedID',
             ),
             Text(
-              'Nesne Açıklaması:',
+              'Nesne Açıklaması: ${data[1]}',
             ),
             DropdownButtonFormField<String>(
-              items: ['Sağlam', 'Hurda', 'Arızalı', 'Kayıp'].map((statu) {
+              items: ['Sağlam', 'Hurda', 'Arızalı', 'Kayıp'].map((status) {
                 return DropdownMenuItem(
-                  value: statu,
-                  child: Text(statu),
+                  value: status,
+                  child: Text(status),
                 );
               }).toList(),
-              onChanged: (value) {},
-              decoration: InputDecoration(labelText: 'Statü'),
+              onChanged: (value) {
+                data = modifyExcel(2, value, data);
+              },
+              decoration: InputDecoration(labelText: 'Statü: ${data[2]}'),
             ),
-            TextField(
-              decoration: InputDecoration(labelText: 'Nesne Grubu Açıklaması'),
+            Text(
+              'Nesne Grubu Açıklaması: ${data[3]}',
             ),
-            TextField(
-              decoration: InputDecoration(labelText: 'GY'),
+            Text(
+              'GY: ${data[4]}',
             ),
-            TextField(
-              decoration: InputDecoration(labelText: 'GY Açıklama'),
+            Text(
+              'GY Açıklama: ${data[5]}',
             ),
-            TextField(
-              decoration: InputDecoration(labelText: 'Sayım Lokasyonu'),
+            Text(
+              'IFS Olması Gereken Lokasyon: ${data[6]}',
             ),
-            TextField(
-              decoration: InputDecoration(labelText: 'Sayım Doğrıulama'),
+            Text(
+              'Sayım Lokasyonu: ${data[7]}',
             ),
-            TextField(
-              decoration: InputDecoration(labelText: 'Sayım Tarihi'),
+            Text(
+              'Sayım Doğrulama: ${data[8]}',
             ),
-            TextField(
-              decoration: InputDecoration(labelText: 'Sayım Numarası'),
+            Text(
+              'Sayım Tarihi: ${data[9]}',
+            ),
+            Text(
+              'Sayım Numarası: ${data[10]}',
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
+                var report = getExcelReport();
+                report.append(data);
                 // Handle submit action
                 showDialog(
                   context: context,
-                  builder: (context) => EntryConfirmationPopup(recognizedID: recognizedID),
+                  builder: (context) =>
+                      EntryConfirmationPopup(recognizedID: recognizedID),
                 );
               },
               child: Text('Submit'),
