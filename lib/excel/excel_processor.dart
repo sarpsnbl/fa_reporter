@@ -22,7 +22,7 @@ void main(List<String> args) {
 }
 
 List<String> beginExcel(recognizedID) {
-  var filePath = 'excel test\\excel_processor\\lib\\Arge Sayım Data v.1.xlsx';
+  var filePath = 'lib\\excel\\Arge Sayım Data v.1.xlsx';
   var excel = readExcel(filePath);
 
   List<CellValue?> entry = getRowById(excel, recognizedID);

@@ -7,7 +7,6 @@ import 'package:excel/excel.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -48,7 +47,8 @@ class Home extends StatelessWidget {
                     title: const Text('Taramaya Başlayın'),
                     children: [
                       if (Platform.isAndroid)
-                        CustomCard('Nesne Numarası Tarama', TextRecognizerView()),
+                        CustomCard(
+                            'Nesne Numarası Tarama', TextRecognizerView()),
                     ],
                   ),
                   const SizedBox(height: 20),
