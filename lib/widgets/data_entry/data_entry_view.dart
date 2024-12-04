@@ -72,7 +72,7 @@ class DataEntryView extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 var report = getExcelReport();
-                report.append(data);
+                report.add(data);
                 // Handle submit action
                 showDialog(
                   context: context,
@@ -80,7 +80,7 @@ class DataEntryView extends StatelessWidget {
                       EntryConfirmationPopup(recognizedID: recognizedID),
                 );
               },
-              child: Text('Submit'),
+              child: Text('Nesneyi Kaydet'),
             ),
           ],
         ),

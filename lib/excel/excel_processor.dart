@@ -1,6 +1,10 @@
 import 'dart:io';
 import 'package:excel/excel.dart';
+import 'package:fa_reporter/utils/excel_getset.dart';
+import 'package:fa_reporter/utils/reports.dart';
 import 'package:fa_reporter/utils/user_getset.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider/path_provider.dart'; // Ensure this is added to your `pubspec.yaml`
 
 var id = "253030030";
 var wantedColumns = [
@@ -22,12 +26,12 @@ void main(List<String> args) {
 }
 
 List<String> beginExcel(recognizedID) {
-  var filePath = 'lib\\excel\\Arge Sayım Data v.1.xlsx';
-  var excel = readExcel(filePath);
+  var excel = getAsset();
 
   List<CellValue?> entry = getRowById(excel, recognizedID);
 
   List<String> row = [];
+  
   if (entry.isNotEmpty) {
     row = entry.map((cell) => cell.toString()).toList();
   } else {}
@@ -35,10 +39,25 @@ List<String> beginExcel(recognizedID) {
   return row;
 }
 
-Excel readExcel(String filePath) {
-  var bytes = File(filePath).readAsBytesSync();
-  var excel = Excel.decodeBytes(bytes);
-  return excel;
+Future<Excel> readExcel(String assetPath) async {
+  try {
+    // Load the Excel file from assets
+    final byteData = await rootBundle.load(assetPath);
+
+    // Write the file to a temporary directory
+    final tempDir = await getTemporaryDirectory();
+    final tempFilePath = '${tempDir.path}/temp_excel.xlsx';
+    final tempFile = File(tempFilePath);
+    await tempFile.writeAsBytes(byteData.buffer.asUint8List());
+
+    // Read the bytes from the temporary file and decode the Excel
+    final bytes = tempFile.readAsBytesSync();
+    final excel = Excel.decodeBytes(bytes);
+    return excel;
+  } catch (e) {
+    print('Error reading Excel file: $e');
+    rethrow;
+  }
 }
 
 void saveReport(row) {
@@ -67,7 +86,13 @@ List<CellValue?> getRowById(Excel excel, String id) {
           for (int j = 0; j < wantedColumns.length; j++) {
             if (excel.tables[table]!.rows[0][i]?.value.toString() ==
                 wantedColumns[j]) {
-              wantedRow.add(TextCellValue(row[i]!.value.toString()));
+              //wantedRow.add(TextCellValue(row[i]!.value.toString()));
+              if (wantedColumns[j] == "Statü:") {
+                wantedRow.insert(wantedRow.length - 1,
+                    TextCellValue(row[i]!.value.toString()));
+              } else {
+                wantedRow.add(TextCellValue(row[i]!.value.toString()));
+              }
               if (wantedColumns[wantedRow.length + 1] == "Sayım Doğrulama") {
                 String value;
                 value = wantedRow[6].value.toString() ==
@@ -82,6 +107,7 @@ List<CellValue?> getRowById(Excel excel, String id) {
             }
           }
         }
+        wantedRow.add(TextCellValue(""));
         return wantedRow;
       }
     }
@@ -91,7 +117,7 @@ List<CellValue?> getRowById(Excel excel, String id) {
 
 void writeExcelReport(List<List<CellValue?>> rows) {
   // Define the file path
-  String outputFilePath = 'excel test/excel_processor/lib/output.xlsx';
+  String outputFilePath = 'assets/output.xlsx';
   var newfilepath = "";
   //replace output file path with new file path
   String from = 'output';
@@ -126,10 +152,13 @@ void writeExcelReport(List<List<CellValue?>> rows) {
   // Save the file
   file.createSync(recursive: true); // Ensure the directory exists
   var fileBytes = excel.save();
+  var finalPath = "assets\\" + outputFilePath;
+  var finalFile;
 
   if (fileBytes != null) {
-    File('excel test\\excel_processor\\lib\\output.xlsx')
+    finalFile = File(finalPath)
       ..createSync(recursive: true)
       ..writeAsBytesSync(fileBytes);
+      files.add(finalFile);
   }
 }

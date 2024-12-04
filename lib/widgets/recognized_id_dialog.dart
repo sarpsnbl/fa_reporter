@@ -1,27 +1,59 @@
 import 'package:fa_reporter/widgets/data_entry/data_entry_view.dart';
 import 'package:flutter/material.dart';
 
-class DetectedIDDialog extends StatelessWidget {
+class DetectedIDDialog extends StatefulWidget {
   final String recognizedID;
 
   const DetectedIDDialog({required this.recognizedID, Key? key}) : super(key: key);
 
   @override
+  _DetectedIDDialogState createState() => _DetectedIDDialogState();
+}
+
+class _DetectedIDDialogState extends State<DetectedIDDialog> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.recognizedID); // Initialize with the recognized ID
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Detected ID"),
-      content: Text("Detected ID: $recognizedID"),
+      title: Text("Bulunan Nesne"),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text("Bulunan Nesne Numarası:"),
+          SizedBox(height: 16),
+          TextField(
+            controller: _controller, // Allow editing of the ID
+            decoration: InputDecoration(
+              labelText: "Nesne Numarasını Düzenle",
+            ),
+            keyboardType: TextInputType.text,
+          ),
+        ],
+      ),
       actions: [
         TextButton(
           onPressed: () {
             Navigator.pop(context); // Close the dialog
             Navigator.push(
               context, 
-              MaterialPageRoute(builder: (context) => DataEntryView(recognizedID: recognizedID)),
+              MaterialPageRoute(builder: (context) => DataEntryView(recognizedID: _controller.text)),
             );
           },
           child: Text("OK"),
-        ),
+        )
       ],
     );
   }

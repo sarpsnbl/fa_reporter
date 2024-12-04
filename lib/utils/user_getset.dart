@@ -1,6 +1,6 @@
 var location = "";
 var username = "";
-var tollNumber = 0;
+var tollNumber = "0";
 List<List<String>> excelReport = [];
 
 String getUserCurrentDate() {
