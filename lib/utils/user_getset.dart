@@ -3,8 +3,9 @@ var username = "";
 var tollNumber = "0";
 List<List<String>> excelEntries = [];
 
+// Get the current date and time
 String getUserCurrentDate() {
-  final DateTime now = DateTime.now(); // Get the current date and time
+  final DateTime now = DateTime.now();
 
   // Format the date as DD-MM-YY
   String formattedDate =
