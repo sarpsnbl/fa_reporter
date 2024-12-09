@@ -97,8 +97,7 @@ List<TextCellValue?> getRowById(Excel excel, String id) {
               }
               if (wantedColumns[wantedRow.length + 1] == "Sayım Doğrulama") {
                 String value;
-                value = wantedRow[6].value.toString() ==
-                        wantedRow[7].value.toString()
+                value = wantedRow[6].value.toString() == getUserLocation()
                     ? "TRUE"
                     : "FALSE";
                 wantedRow.add(TextCellValue(""));
