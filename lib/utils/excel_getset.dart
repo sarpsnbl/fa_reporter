@@ -1,7 +1,7 @@
 import 'package:excel/excel.dart';
 import 'package:flutter/services.dart';
 
-var _cachedAsset;
+var cachedData;
 
 // Asynchronous method to preload the asset
 Future<void> preloadAsset(String assetPath) async {
@@ -11,20 +11,13 @@ Future<void> preloadAsset(String assetPath) async {
   final List<int> bytes = data.buffer.asUint8List();
 
   // Decode the Excel file
-  _cachedAsset = Excel.decodeBytes(Uint8List.fromList(bytes));
-
-  if (_cachedAsset != null) {
-    print('Excel loaded successfully');
-  } else {
-    print('Failed to load Excel file');
-  }
+  cachedData = Excel.decodeBytes(Uint8List.fromList(bytes));
 }
-
 
 // Synchronous method to retrieve the preloaded asset
 Excel getAsset() {
-  if (_cachedAsset == null) {
+  if (cachedData == null) {
     throw Exception("Asset not preloaded. Call preloadAsset() first.");
   }
-  return _cachedAsset!;
+  return cachedData!;
 }

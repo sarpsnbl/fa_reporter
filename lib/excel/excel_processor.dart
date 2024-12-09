@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:excel/excel.dart';
 import 'package:fa_reporter/utils/excel_getset.dart';
+import 'package:fa_reporter/utils/file_load_save.dart';
 import 'package:fa_reporter/utils/reports.dart';
 import 'package:fa_reporter/utils/user_getset.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -26,12 +27,12 @@ void main(List<String> args) {
 }
 
 List<String> beginExcel(recognizedID) {
-  var excel = getAsset();
+  Excel excel = getAsset();
 
   List<CellValue?> entry = getRowById(excel, recognizedID);
 
   List<String> row = [];
-  
+
   if (entry.isNotEmpty) {
     row = entry.map((cell) => cell.toString()).toList();
   } else {}
@@ -60,7 +61,7 @@ Future<Excel> readExcel(String assetPath) async {
   }
 }
 
-void saveReport(row) {
+void saveReport(row) async {
   excelReport = getExcelReport();
   // convert String list list to Cell list list
   List<List<CellValue?>> updatedRows = [];
@@ -115,15 +116,14 @@ List<CellValue?> getRowById(Excel excel, String id) {
   return [];
 }
 
-void writeExcelReport(List<List<CellValue?>> rows) {
+void writeExcelReport(List<List<CellValue?>> rows) async {
   // Define the file path
-  String outputFilePath = 'assets/output.xlsx';
-  var newfilepath = "";
-  //replace output file path with new file path
+  var outputFilePath = await getApplicationDocumentsDirectory();
+  var newFilename = '/output.xlsx';
   String from = 'output';
   String replace = 'sayim' + getTollNumber() + '_' + getUserCurrentDate();
-  outputFilePath = outputFilePath.replaceAll(from, replace);
-  var file = File(outputFilePath);
+  var finalFileName = newFilename.replaceAll(from, replace);
+  var file = File(outputFilePath.path + finalFileName);
 
   // Create or load the Excel instance
   Excel excel;
@@ -151,14 +151,5 @@ void writeExcelReport(List<List<CellValue?>> rows) {
 
   // Save the file
   file.createSync(recursive: true); // Ensure the directory exists
-  var fileBytes = excel.save();
-  var finalPath = "assets\\" + outputFilePath;
-  var finalFile;
-
-  if (fileBytes != null) {
-    finalFile = File(finalPath)
-      ..createSync(recursive: true)
-      ..writeAsBytesSync(fileBytes);
-      files.add(finalFile);
-  }
+  saveFile(excel, finalFileName);
 }

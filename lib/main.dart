@@ -1,6 +1,7 @@
 import 'package:fa_reporter/excel/excel_share.dart';
 import 'package:fa_reporter/excel/excel_processor.dart';
 import 'package:fa_reporter/utils/excel_getset.dart';
+import 'package:fa_reporter/utils/file_load_save.dart';
 import 'package:fa_reporter/utils/reports.dart';
 import 'package:fa_reporter/widgets/entry_screen/first_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 Future<void> main() async {
-  runApp(const MyApp());
   WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyApp());
   await preloadAsset('assets/data.xlsx');
+  var files = await loadFilesFromDirectory();
+  setFiles(files);
 }
 
 class MyApp extends StatelessWidget {
