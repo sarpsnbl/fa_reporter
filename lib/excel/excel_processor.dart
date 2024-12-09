@@ -30,7 +30,7 @@ void main(List<String> args) {
 List<String> beginExcel(recognizedID) {
   Excel excel = getAsset();
 
-  List<CellValue?> entry = getRowById(excel, recognizedID);
+  List<TextCellValue?> entry = getRowById(excel, recognizedID);
 
   List<String> row = [];
 
@@ -65,7 +65,7 @@ Future<Excel> readExcel(String assetPath) async {
 File saveReport() {
   List<List<String>> excelEntries = getExcelEntries();
   // convert String list list to Cell list list
-  List<List<CellValue?>> updatedRows = [];
+  List<List<TextCellValue?>> updatedRows = [];
   for (int i = 0; i < excelEntries.length; i++) {
     updatedRows
         .add(excelEntries[i].map((element) => TextCellValue(element)).toList());
@@ -79,7 +79,7 @@ List<String> modifyExcel(column, value, data) {
   return data;
 }
 
-List<CellValue?> getRowById(Excel excel, String id) {
+List<TextCellValue?> getRowById(Excel excel, String id) {
   for (var table in excel.tables.keys) {
     for (var row in excel.tables[table]!.rows) {
       if (row.isNotEmpty && row[0]?.value.toString() == id) {
@@ -117,7 +117,7 @@ List<CellValue?> getRowById(Excel excel, String id) {
   return [];
 }
 
-File writeExcelReport(List<List<CellValue?>> rows) {
+File writeExcelReport(List<List<TextCellValue?>> rows) {
   // Define the file path
   var outputFilePath = getAppDirectory();
   var newFilename = '/output.xlsx';
@@ -127,30 +127,26 @@ File writeExcelReport(List<List<CellValue?>> rows) {
   var file = File(outputFilePath.path + finalFileName);
 
   // Create or load the Excel instance
-  Excel excel;
-  if (file.existsSync()) {
-    // Load the existing Excel file
-    var bytes = file.readAsBytesSync();
-    excel = Excel.decodeBytes(bytes);
-  } else {
-    // Create a new Excel instance
-    excel = Excel.createExcel();
-  }
+  Excel excel = Excel.createExcel();
 
   // Add data to the first sheet
   excel.rename("Sheet1", "Sayfa1");
   Sheet sheet = excel['Sayfa1'];
 
-  // If the file is new, add headers
-  if (!file.existsSync()) {
-    sheet.appendRow(
-        wantedColumns.map((toElement) => TextCellValue(toElement)).toList());
+  sheet.appendRow(
+      wantedColumns.map((toElement) => TextCellValue(toElement)).toList());
+
+  for (List<TextCellValue?> row in rows) {
+    sheet.appendRow(row);
   }
 
-  // Add the new row of data
-  rows.map((row) => sheet.appendRow(row));
+  for (var table in excel.sheets.keys) {
+    for (var row in excel.sheets[table]!.rows) {
+      for (var cell in row) {
+        print(cell?.value); // Print each cell value
+      }
+    }
+  }
 
-  // Save the file
-  file.createSync(recursive: true); // Ensure the directory exists
   return saveFile(excel, finalFileName);
 }
