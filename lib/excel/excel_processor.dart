@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:excel/excel.dart';
+import 'package:fa_reporter/utils/app_directory_getset.dart';
 import 'package:fa_reporter/utils/excel_getset.dart';
 import 'package:fa_reporter/utils/file_load_save.dart';
 import 'package:fa_reporter/utils/reports.dart';
@@ -61,15 +62,15 @@ Future<Excel> readExcel(String assetPath) async {
   }
 }
 
-void saveReport() async {
-  var excelEntries = getExcelEntries();
+File saveReport() {
+  List<List<String>> excelEntries = getExcelEntries();
   // convert String list list to Cell list list
   List<List<CellValue?>> updatedRows = [];
   for (int i = 0; i < excelEntries.length; i++) {
     updatedRows
         .add(excelEntries[i].map((element) => TextCellValue(element)).toList());
   }
-  writeExcelReport(updatedRows);
+  return writeExcelReport(updatedRows);
 }
 
 List<String> modifyExcel(column, value, data) {
@@ -116,9 +117,9 @@ List<CellValue?> getRowById(Excel excel, String id) {
   return [];
 }
 
-void writeExcelReport(List<List<CellValue?>> rows) async {
+File writeExcelReport(List<List<CellValue?>> rows) {
   // Define the file path
-  var outputFilePath = await getApplicationDocumentsDirectory();
+  var outputFilePath = getAppDirectory();
   var newFilename = '/output.xlsx';
   String from = 'output';
   String replace = 'sayim' + getTollNumber() + '_' + getUserCurrentDate();
@@ -151,5 +152,5 @@ void writeExcelReport(List<List<CellValue?>> rows) async {
 
   // Save the file
   file.createSync(recursive: true); // Ensure the directory exists
-  saveFile(excel, finalFileName);
+  return saveFile(excel, finalFileName);
 }

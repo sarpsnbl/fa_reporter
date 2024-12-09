@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:excel/excel.dart';
+import 'package:fa_reporter/utils/app_directory_getset.dart';
 import 'package:path_provider/path_provider.dart';
 
 var files;
@@ -21,8 +22,8 @@ Future<List<File>> loadFilesFromDirectory() async {
       .toList();
 }
 
-Future<void> saveFile(Excel excel, filename) async {
-  var path = await getApplicationDocumentsDirectory();
+File saveFile(Excel excel, filename) {
+  var path = getAppDirectory();
   var fileBytes = excel.save();
   var finalFile;
 
@@ -32,4 +33,6 @@ Future<void> saveFile(Excel excel, filename) async {
       ..writeAsBytesSync(fileBytes);
     files.add(finalFile);
   }
+
+  return finalFile;
 }

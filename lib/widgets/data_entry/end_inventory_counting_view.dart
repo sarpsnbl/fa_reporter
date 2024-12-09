@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:fa_reporter/excel/excel_processor.dart';
 import 'package:fa_reporter/excel/excel_share.dart';
 import 'package:fa_reporter/utils/user_getset.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class _EndInventoryCountingViewState extends State<EndInventoryCountingView> {
   String userTime = getUserCurrentDate();
   @override
   Widget build(BuildContext context) {
+    var file = saveReport();
     return Scaffold(
       appBar: AppBar(
         title: Text('Sayım Sona Erdi.'),
@@ -31,7 +33,7 @@ class _EndInventoryCountingViewState extends State<EndInventoryCountingView> {
             SizedBox(height: 20), // Spacer
             Text("$userTime tarihli sayım tamamlandı."),
             SizedBox(height: 20), // Another spacer
-            ExcelShareButton(),
+            ExcelShareButton(file: file),
           ],
         ),
       ),

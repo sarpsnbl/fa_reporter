@@ -1,5 +1,6 @@
 import 'package:fa_reporter/excel/excel_share.dart';
 import 'package:fa_reporter/excel/excel_processor.dart';
+import 'package:fa_reporter/utils/app_directory_getset.dart';
 import 'package:fa_reporter/utils/excel_getset.dart';
 import 'package:fa_reporter/utils/file_load_save.dart';
 import 'package:fa_reporter/utils/reports.dart';
@@ -17,6 +18,7 @@ Future<void> main() async {
   await preloadAsset('assets/data.xlsx');
   var files = await loadFilesFromDirectory();
   setFiles(files);
+  setAppDirectory(await getApplicationDocumentsDirectory());
 }
 
 class MyApp extends StatelessWidget {
@@ -58,7 +60,6 @@ class Home extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  ExcelShareButton(), // Added button for sharing Excel file
                   const SizedBox(height: 20), // Spacer
                   // Button to navigate to the FirstScreen
                   ElevatedButton(

@@ -1,39 +1,22 @@
-// New widget for sharing the Excel file
 import 'dart:io';
 
-import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ExcelShareButton extends StatelessWidget {
-  const ExcelShareButton({Key? key}) : super(key: key);
+  final File file;
 
-  Future<File> _createExcelFile() async {
-    var excel = Excel.createExcel();
-    var sheet = excel['Sheet1'];
-    sheet.appendRow([TextCellValue('Name'), TextCellValue('Age'), TextCellValue('Email')]);
-    sheet.appendRow([TextCellValue('John Doe'), IntCellValue(23), TextCellValue('john@example.com')]);
-
-    Directory tempDir = await getTemporaryDirectory();
-    String filePath = '${tempDir.path}/example.xlsx';
-    File file = File(filePath)
-      ..createSync(recursive: true)
-      ..writeAsBytesSync(excel.save()!);
-    return file;
-  }
-
-  Future<void> shareExcelFile() async {
-    final file = await _createExcelFile();
-    Share.shareXFiles([XFile(file.path)], text: 'Here is the Excel file.');
-  }
+  const ExcelShareButton({Key? key, required this.file}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: shareExcelFile,
+      onPressed: () => shareExcelFile(file), // Parametre ile çağır
       child: const Text('Excel Dosyasını Paylaş'),
     );
   }
 }
 
+Future<void> shareExcelFile(File file) async {
+  Share.shareXFiles([XFile(file.path)], text: 'Son Sayım.');
+}
