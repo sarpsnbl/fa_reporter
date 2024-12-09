@@ -85,7 +85,7 @@ class _CameraViewState extends State<CameraView> {
           ),
           _backButton(),
           //_switchLiveCameraToggle(),
-          _detectionViewModeToggle(),
+          //_detectionViewModeToggle(),
         ],
       ),
     );

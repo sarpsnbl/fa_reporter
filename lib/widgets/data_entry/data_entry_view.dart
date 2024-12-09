@@ -15,6 +15,12 @@ class DataEntryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> data = beginExcel(recognizedID);
+    if(data.isEmpty) {
+      return Scaffold(
+        body: 
+          Text("Nesne Bulunamadı!"),
+      );
+    }
     data[9] = getUserCurrentDate();
     data[7] = getUserLocation();
     data[10] = getTollNumber();
