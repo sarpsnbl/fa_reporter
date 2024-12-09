@@ -180,11 +180,16 @@ class TextRecognizerPainter extends CustomPainter {
       );
     }
 
+    String prevId = "null";
     String recognizedID = idDetected(recognizedText);
-    if (recognizedID != "-1" && !isDetectedIDDialogShown) {
-      Future.delayed(Duration.zero, () {
-        showDetectedIDDialog(recognizedID);
-      });
+    print(recognizedID + " and " + prevId + "***************************************************************");
+    if (!(recognizedID == prevId)) {
+      prevId = recognizedID;
+      if (recognizedID != "-1" && !isDetectedIDDialogShown) {
+        Future.delayed(Duration.zero, () {
+          showDetectedIDDialog(recognizedID);
+        });
+      }
     }
   }
 

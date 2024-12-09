@@ -1,7 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
+import 'package:fa_reporter/main.dart';
 import 'package:fa_reporter/utils/user_getset.dart';
 import 'package:fa_reporter/widgets/data_entry/previous_data_view.dart';
+import 'package:fa_reporter/widgets/ocr/text_detector_view.dart';
 import 'package:flutter/material.dart'; // Import the PreviousDataView class
 
 class FirstScreen extends StatefulWidget {
@@ -15,13 +19,15 @@ class _FirstScreenState extends State<FirstScreen> {
       TextEditingController();
   String? selectedLocation; // Variable to hold the selected dropdown value
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Demirbaş Rapor"),
-      ),
-      body: Padding(
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    resizeToAvoidBottomInset: true, // Allow resizing of the screen
+    appBar: AppBar(
+      title: Text("Demirbaş Rapor"),
+    ),
+    body: SingleChildScrollView( // Add SingleChildScrollView here
+      child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,8 +54,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 border: OutlineInputBorder(),
                 hintText: "Sayım numarasını girin",
               ),
-              keyboardType:
-                  TextInputType.number, // Numeric keyboard for numbers
+              keyboardType: TextInputType.number, // Numeric keyboard for numbers
               onChanged: (value) => setTollNumber(value),
             ),
             SizedBox(height: 20), // Spacer
@@ -78,12 +83,21 @@ class _FirstScreenState extends State<FirstScreen> {
             ),
             SizedBox(height: 20), // Spacer
             Text("Tarih: ${getUserCurrentDate()}"),
-            const Spacer(), // Spacer to push the button to the bottom
+            ExpansionTile(
+              title: const Text('Taramaya Başlayın'),
+              children: [
+                if (Platform.isAndroid)
+                  CustomCard(
+                      'Nesne Numarası Tarama', TextRecognizerView()),
+              ],
+            ),
+            const SizedBox(height: 20), // Spacer before the button
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => PreviousDataView()),
+                  MaterialPageRoute(
+                      builder: (context) => PreviousDataView()),
                 );
               },
               child: const Text('Önceki Sayımlarım'),
@@ -91,7 +105,8 @@ class _FirstScreenState extends State<FirstScreen> {
           ],
         ),
       ),
-    );
+    ),
+  );
   }
 }
 

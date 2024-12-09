@@ -38,45 +38,18 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var screenHeight = MediaQuery.of(context).size.height;
+    var keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
+      
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text('Demirbaş Sayım Raporlama Sistemi'),
         centerTitle: true,
         elevation: 0,
       ),
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  ExpansionTile(
-                    title: const Text('Taramaya Başlayın'),
-                    children: [
-                      if (Platform.isAndroid)
-                        CustomCard(
-                            'Nesne Numarası Tarama', TextRecognizerView()),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  const SizedBox(height: 20), // Spacer
-                  // Button to navigate to the FirstScreen
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => FirstScreen()),
-                      );
-                    },
-                    child: const Text('İlk Ekrana Git'),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
+      body:
+      FirstScreen(),
     );
   }
 }
@@ -91,7 +64,9 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Card(
+      
       elevation: 5,
       margin: const EdgeInsets.only(bottom: 10),
       child: ListTile(
