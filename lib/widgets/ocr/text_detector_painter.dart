@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'dart:ui' as ui;
 
 import 'package:camera/camera.dart';
+import 'package:fa_reporter/utils/previous_id.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'coordinates_translator.dart';
@@ -180,11 +181,12 @@ class TextRecognizerPainter extends CustomPainter {
       );
     }
 
-    String prevId = "null";
+    
     String recognizedID = idDetected(recognizedText);
-    print(recognizedID + " and " + prevId + "***************************************************************");
-    if (!(recognizedID == prevId)) {
-      prevId = recognizedID;
+    print(recognizedID + " and " + getPreviousID() + "***************************************************************");
+    if (!(recognizedID == getPreviousID())) {
+      setPreviousID(recognizedID);
+      print("set previd **yildiz**");
       if (recognizedID != "-1" && !isDetectedIDDialogShown) {
         Future.delayed(Duration.zero, () {
           showDetectedIDDialog(recognizedID);

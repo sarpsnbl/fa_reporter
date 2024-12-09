@@ -3,6 +3,7 @@
 import 'package:fa_reporter/excel/excel_processor.dart';
 import 'package:fa_reporter/excel/excel_share.dart';
 import 'package:fa_reporter/utils/user_getset.dart';
+import 'package:fa_reporter/widgets/entry_screen/first_screen.dart';
 import 'package:flutter/material.dart';
 
 class EndInventoryCountingView extends StatefulWidget {
@@ -34,6 +35,15 @@ class _EndInventoryCountingViewState extends State<EndInventoryCountingView> {
             Text("$userTime tarihli sayım tamamlandı."),
             SizedBox(height: 20), // Another spacer
             ExcelShareButton(file: file),
+             ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => FirstScreen()),
+                );
+              },
+              child: Text('Ana Ekrana Dön'),
+            ),
           ],
         ),
       ),
