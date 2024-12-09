@@ -1,7 +1,7 @@
 var location = "";
 var username = "";
 var tollNumber = "0";
-List<List<String>> excelReport = [];
+List<List<String>> excelEntries = [];
 
 String getUserCurrentDate() {
   final DateTime now = DateTime.now(); // Get the current date and time
@@ -13,8 +13,8 @@ String getUserCurrentDate() {
   return formattedDate;
 }
 
-getExcelReport() {
-  return excelReport;
+getExcelEntries() {
+  return excelEntries;
 }
 
 getUserLocation() {

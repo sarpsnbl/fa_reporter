@@ -15,10 +15,9 @@ class DataEntryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> data = beginExcel(recognizedID);
-    if(data.isEmpty) {
+    if (data.isEmpty) {
       return Scaffold(
-        body: 
-          Text("Nesne Bulunamadı!"),
+        body: Text("Nesne Bulunamadı!"),
       );
     }
     data[9] = getUserCurrentDate();
@@ -77,7 +76,7 @@ class DataEntryView extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                var report = getExcelReport();
+                var report = getExcelEntries();
                 report.add(data);
                 // Handle submit action
                 showDialog(

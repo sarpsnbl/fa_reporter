@@ -61,13 +61,13 @@ Future<Excel> readExcel(String assetPath) async {
   }
 }
 
-void saveReport(row) async {
-  excelReport = getExcelReport();
+void saveReport() async {
+  var excelEntries = getExcelEntries();
   // convert String list list to Cell list list
   List<List<CellValue?>> updatedRows = [];
-  for (int i = 0; i < excelReport.length; i++) {
+  for (int i = 0; i < excelEntries.length; i++) {
     updatedRows
-        .add(excelReport[i].map((element) => TextCellValue(element)).toList());
+        .add(excelEntries[i].map((element) => TextCellValue(element)).toList());
   }
   writeExcelReport(updatedRows);
 }
