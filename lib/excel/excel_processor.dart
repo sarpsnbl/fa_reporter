@@ -6,7 +6,7 @@ import 'package:fa_reporter/utils/file_load_save.dart';
 import 'package:fa_reporter/utils/reports.dart';
 import 'package:fa_reporter/utils/user_getset.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:path_provider/path_provider.dart'; // Ensure this is added to your `pubspec.yaml`
+import 'package:path_provider/path_provider.dart'; 
 
 var id = "253030030";
 var wantedColumns = [
@@ -43,16 +43,16 @@ List<String> beginExcel(recognizedID) {
 
 Future<Excel> readExcel(String assetPath) async {
   try {
-    // Load the Excel file from assets
+    
     final byteData = await rootBundle.load(assetPath);
 
-    // Write the file to a temporary directory
+    
     final tempDir = await getTemporaryDirectory();
     final tempFilePath = '${tempDir.path}/temp_excel.xlsx';
     final tempFile = File(tempFilePath);
     await tempFile.writeAsBytes(byteData.buffer.asUint8List());
 
-    // Read the bytes from the temporary file and decode the Excel
+    
     final bytes = tempFile.readAsBytesSync();
     final excel = Excel.decodeBytes(bytes);
     return excel;
@@ -64,7 +64,7 @@ Future<Excel> readExcel(String assetPath) async {
 
 File saveReport() {
   List<List<String>> excelEntries = getExcelEntries();
-  // convert String list list to Cell list list
+  
   List<List<TextCellValue?>> updatedRows = [];
   for (int i = 0; i < excelEntries.length; i++) {
     updatedRows
@@ -88,7 +88,7 @@ List<TextCellValue?> getRowById(Excel excel, String id) {
           for (int j = 0; j < wantedColumns.length; j++) {
             if (excel.tables[table]!.rows[0][i]?.value.toString() ==
                 wantedColumns[j]) {
-              //wantedRow.add(TextCellValue(row[i]!.value.toString()));
+              
               if (wantedColumns[j] == "Statü:") {
                 wantedRow.insert(wantedRow.length - 1,
                     TextCellValue(row[i]!.value.toString()));
@@ -117,7 +117,7 @@ List<TextCellValue?> getRowById(Excel excel, String id) {
 }
 
 File writeExcelReport(List<List<TextCellValue?>> rows) {
-  // Define the file path
+  
   var outputFilePath = getAppDirectory();
   var newFilename = '/output.xlsx';
   String from = 'output';
@@ -125,10 +125,10 @@ File writeExcelReport(List<List<TextCellValue?>> rows) {
   var finalFileName = newFilename.replaceAll(from, replace);
   var file = File(outputFilePath.path + finalFileName);
 
-  // Create or load the Excel instance
+  
   Excel excel = Excel.createExcel();
 
-  // Add data to the first sheet
+  
   excel.rename("Sheet1", "Sayfa1");
   Sheet sheet = excel['Sayfa1'];
 
@@ -142,7 +142,7 @@ File writeExcelReport(List<List<TextCellValue?>> rows) {
   for (var table in excel.sheets.keys) {
     for (var row in excel.sheets[table]!.rows) {
       for (var cell in row) {
-        print(cell?.value); // Print each cell value
+        print(cell?.value); 
       }
     }
   }
