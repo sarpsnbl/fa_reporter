@@ -5,11 +5,6 @@ import 'package:path_provider/path_provider.dart';
 
 var files;
 
-/*************  ✨ Codeium Command ⭐  *************/
-/// Returns the list of files in the application documents directory that have
-/// been loaded into memory. This list is initially empty and is populated by
-/// the [loadFilesFromDirectory] function.
-/******  08451a11-3d50-48ab-940c-fcdceb0034b3  *******/
 getFiles() {
   return files;
 }

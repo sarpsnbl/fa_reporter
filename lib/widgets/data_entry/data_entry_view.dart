@@ -53,52 +53,106 @@ class DataEntryView extends StatelessWidget {
     data[10] = getTollNumber();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Demirbaş Girişi"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
+  appBar: AppBar(
+    title: Text("Demirbaş Girişi"),
+  ),
+  body: SingleChildScrollView(
+    padding: const EdgeInsets.all(16.0),
+    child: Column(
+      children: [
+        Table(
+          border: TableBorder.all(
+            color: Colors.grey,
+            width: 1.0,
+          ),
+          columnWidths: const {
+            0: FlexColumnWidth(1),
+            1: FlexColumnWidth(2),
+          },
           children: [
-            Text('Nesne Numarası: $recognizedID'),
-            Text('Nesne Açıklaması: ${data[1]}'),
-            DropdownButtonFormField<String>(
-              items: ['Sağlam', 'Hurda', 'Arızalı', 'Kayıp'].map((status) {
-                return DropdownMenuItem(
-                  value: status,
-                  child: Text(status),
-                );
-              }).toList(),
-              onChanged: (value) {
-                data = modifyExcel(2, value, data);
-              },
-              decoration: InputDecoration(labelText: 'Statü: ${data[2]}'),
-            ),
-            Text('Nesne Grubu Açıklaması: ${data[3]}'),
-            Text('GY: ${data[4]}'),
-            Text('GY Açıklama: ${data[5]}'),
-            Text('IFS Olması Gereken Lokasyon: ${data[6]}'),
-            Text('Sayım Lokasyonu: ${data[7]}'),
-            Text('Sayım Doğrulama: ${data[8]}'),
-            Text('Sayım Tarihi: ${data[9]}'),
-            Text('Sayım Numarası: ${data[10]}'),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                var report = getExcelEntries();
-                report.add(data);
-                showDialog(
-                  context: context,
-                  builder: (context) => EntryConfirmationPopup(
-                    recognizedID: recognizedID,
+            _buildTableRow('Nesne Numarası:', recognizedID),
+            _buildTableRow('Nesne Açıklaması:', data[1]),
+            TableRow(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Statü:',
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                );
-              },
-              child: Text('Nesneyi Kaydet'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: DropdownButtonFormField<String>(
+                    items: ['Sağlam', 'Hurda', 'Arızalı', 'Kayıp'].map((status) {
+                      return DropdownMenuItem(
+                        value: status,
+                        child: Text(status),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      data = modifyExcel(2, value, data);
+                    },
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(8.0),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+              ],
             ),
+            _buildTableRow('Nesne Grubu Açıklaması:', data[3]),
+            _buildTableRow('GY:', data[4]),
+            _buildTableRow('GY Açıklama:', data[5]),
+            _buildTableRow('IFS Olması Gereken Lokasyon:', data[6]),
+            _buildTableRow('Sayım Lokasyonu:', data[7]),
+            _buildTableRow('Sayım Doğrulama:', data[8]),
+            _buildTableRow('Sayım Tarihi:', data[9]),
+            _buildTableRow('Sayım Numarası:', data[10]),
           ],
         ),
-      ),
-    );
+        SizedBox(height: 20),
+        ElevatedButton(
+          style: TextButton.styleFrom(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            backgroundColor: Color.fromARGB(255, 254, 247, 255),
+          ),
+          onPressed: () {
+            var report = getExcelEntries();
+            report.add(data);
+            showDialog(
+              context: context,
+              builder: (context) => EntryConfirmationPopup(
+                recognizedID: recognizedID,
+              ),
+            );
+          },
+          child: Text('Nesneyi Kaydet', style: TextStyle(color: Colors.black)),
+        ),
+      ],
+    ),
+  ),
+);
+
+
+
   }
+}
+
+TableRow _buildTableRow(String label, String value) {
+  return TableRow(
+    children: [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          label,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(value),
+      ),
+    ],
+  );
 }
