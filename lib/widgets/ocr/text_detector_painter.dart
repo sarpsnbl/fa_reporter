@@ -181,13 +181,15 @@ class TextRecognizerPainter extends CustomPainter {
       );
     }
 
-    
     String recognizedID = idDetected(recognizedText);
-    print(recognizedID + " and " + getPreviousID() + "***************************************************************");
+    print(recognizedID +
+        " and " +
+        getPreviousID() +
+        "***************************************************************");
     if (!(recognizedID == getPreviousID())) {
-      setPreviousID(recognizedID);
-      print("set previd **yildiz**");
       if (recognizedID != "-1" && !isDetectedIDDialogShown) {
+        setPreviousID(recognizedID);
+        print("set previd **yildiz**");
         Future.delayed(Duration.zero, () {
           showDetectedIDDialog(recognizedID);
         });
