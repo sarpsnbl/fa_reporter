@@ -3,7 +3,6 @@ import 'package:fa_reporter/excel/excel_processor.dart';
 import 'package:fa_reporter/utils/app_directory_getset.dart';
 import 'package:fa_reporter/utils/excel_getset.dart';
 import 'package:fa_reporter/utils/file_load_save.dart';
-import 'package:fa_reporter/utils/reports.dart';
 import 'package:fa_reporter/widgets/entry_screen/first_screen.dart';
 import 'package:flutter/material.dart';
 import 'widgets/ocr/text_detector_view.dart';

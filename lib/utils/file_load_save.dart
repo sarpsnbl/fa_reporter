@@ -5,6 +5,11 @@ import 'package:path_provider/path_provider.dart';
 
 var files;
 
+/*************  ✨ Codeium Command ⭐  *************/
+/// Returns the list of files in the application documents directory that have
+/// been loaded into memory. This list is initially empty and is populated by
+/// the [loadFilesFromDirectory] function.
+/******  08451a11-3d50-48ab-940c-fcdceb0034b3  *******/
 getFiles() {
   return files;
 }
@@ -13,11 +18,21 @@ setFiles(newFiles) {
   files = newFiles;
 }
 
+/// Loads and returns a list of files from the application documents directory.
+/// 
+/// This function retrieves the application documents directory, lists all
+/// entities within it, filters to include only files, and returns them as
+/// a list of `File` objects.
+/// 
+/// Returns:
+///   A `Future` that completes with a list of files present in the 
+///   application documents directory.
+
 Future<List<File>> loadFilesFromDirectory() async {
   final directory = await getApplicationDocumentsDirectory();
   return directory
       .listSync()
-      .where((file) => file is File)
+      .where((file) => file is File && file.path.endsWith('.xlsx'))
       .cast<File>()
       .toList();
 }
