@@ -6,7 +6,7 @@ import 'package:fa_reporter/utils/file_load_save.dart';
 import 'package:fa_reporter/utils/reports.dart';
 import 'package:fa_reporter/utils/user_getset.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:path_provider/path_provider.dart'; 
+import 'package:path_provider/path_provider.dart';
 
 var id = "253030030";
 var wantedColumns = [
@@ -43,16 +43,13 @@ List<String> beginExcel(recognizedID) {
 
 Future<Excel> readExcel(String assetPath) async {
   try {
-    
     final byteData = await rootBundle.load(assetPath);
 
-    
     final tempDir = await getTemporaryDirectory();
     final tempFilePath = '${tempDir.path}/temp_excel.xlsx';
     final tempFile = File(tempFilePath);
     await tempFile.writeAsBytes(byteData.buffer.asUint8List());
 
-    
     final bytes = tempFile.readAsBytesSync();
     final excel = Excel.decodeBytes(bytes);
     return excel;
@@ -64,7 +61,7 @@ Future<Excel> readExcel(String assetPath) async {
 
 File saveReport() {
   List<List<String>> excelEntries = getExcelEntries();
-  
+
   List<List<TextCellValue?>> updatedRows = [];
   for (int i = 0; i < excelEntries.length; i++) {
     updatedRows
@@ -88,7 +85,6 @@ List<TextCellValue?> getRowById(Excel excel, String id) {
           for (int j = 0; j < wantedColumns.length; j++) {
             if (excel.tables[table]!.rows[0][i]?.value.toString() ==
                 wantedColumns[j]) {
-              
               if (wantedColumns[j] == "Statü:") {
                 wantedRow.insert(wantedRow.length - 1,
                     TextCellValue(row[i]!.value.toString()));
@@ -117,18 +113,13 @@ List<TextCellValue?> getRowById(Excel excel, String id) {
 }
 
 File writeExcelReport(List<List<TextCellValue?>> rows) {
-  
-  var outputFilePath = getAppDirectory();
   var newFilename = '/output.xlsx';
   String from = 'output';
   String replace = 'sayim' + getTollNumber() + '_' + getUserCurrentDate();
   var finalFileName = newFilename.replaceAll(from, replace);
-  var file = File(outputFilePath.path + finalFileName);
 
-  
   Excel excel = Excel.createExcel();
 
-  
   excel.rename("Sheet1", "Sayfa1");
   Sheet sheet = excel['Sayfa1'];
 
@@ -137,14 +128,6 @@ File writeExcelReport(List<List<TextCellValue?>> rows) {
 
   for (List<TextCellValue?> row in rows) {
     sheet.appendRow(row);
-  }
-
-  for (var table in excel.sheets.keys) {
-    for (var row in excel.sheets[table]!.rows) {
-      for (var cell in row) {
-        print(cell?.value); 
-      }
-    }
   }
 
   return saveFile(excel, finalFileName);
