@@ -24,7 +24,7 @@ class PreviousDataView extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
             child: TextButton(
               onPressed: () {
-                Navigator.pushReplacement(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ExcelViewScreen(excelFile: report,)),
                 );
