@@ -115,7 +115,6 @@ class DataEntryView extends StatelessWidget {
         ElevatedButton(
           style: TextButton.styleFrom(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-            backgroundColor: Color.fromARGB(255, 254, 247, 255),
           ),
           onPressed: () {
             var report = getExcelEntries();

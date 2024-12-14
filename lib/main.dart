@@ -11,6 +11,8 @@ import 'package:excel/excel.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+var corpYellow = Color.fromRGBO(252, 217, 1, 1);
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
@@ -23,10 +25,74 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override
+ @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'KanSay',
+      theme: ThemeData(
+        // Use a ColorScheme to control all colors across the app
+        colorScheme: ColorScheme(
+          primary: corpYellow,        // Primary color
+          primaryContainer: Colors.tealAccent,
+          secondary: Colors.black,   // Accent color
+          secondaryContainer: Colors.black,
+          surface: Colors.white,      // Background of cards, dialogs
+          error: Colors.red,          // Error messages
+          onPrimary: Colors.white,    // Text color on primary
+          onSecondary: Colors.black,  // Text color on secondary
+          onSurface: Colors.black,    // Text color on surfaces
+          onError: Colors.white,      // Text color on errors
+          brightness: Brightness.light, // Light or dark mode
+        ),
+
+        // Customize specific components globally
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: Colors.black, // Text color
+          ),
+        ),
+
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            foregroundColor: Colors.black,
+            side: BorderSide(color: Colors.black, width: 2),
+          ),
+        ),
+
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.white, // Background for input fields
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+
+        appBarTheme: AppBarTheme(
+          backgroundColor: corpYellow,
+          foregroundColor: Colors.black, // Title text color
+        ),
+
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: corpYellow,
+          foregroundColor: Colors.white,
+        ),
+
+        checkboxTheme: CheckboxThemeData(
+          fillColor: WidgetStatePropertyAll(Colors.black),
+        ),
+      ),
       home: Home(),
     );
   }
@@ -42,11 +108,6 @@ class Home extends StatelessWidget {
     return Scaffold(
       
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        title: const Text('Demirbaş Sayım Raporlama Sistemi'),
-        centerTitle: true,
-        elevation: 0,
-      ),
       body:
       FirstScreen(),
     );
@@ -73,7 +134,7 @@ class CustomCard extends StatelessWidget {
         title: Text(
           _label,
           style:
-              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         onTap: () {
           if (!featureCompleted) {

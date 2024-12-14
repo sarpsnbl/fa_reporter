@@ -24,7 +24,12 @@ Widget build(BuildContext context) {
   return Scaffold(
     resizeToAvoidBottomInset: true, // Allow resizing of the screen
     appBar: AppBar(
-      title: Text("Demirbaş Rapor"),
+      title: Text("KanSay Rapor" // make the text bold and centered
+        ,style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      centerTitle: true,
     ),
     body: SingleChildScrollView( // Add SingleChildScrollView here
       child: Padding(
@@ -84,7 +89,7 @@ Widget build(BuildContext context) {
             SizedBox(height: 20), // Spacer
             Text("Tarih: ${getUserCurrentDate()}"),
             ExpansionTile(
-              title: const Text('Taramaya Başlayın'),
+              title: const Text('Taramaya Başlayın',),
               children: [
                 if (Platform.isAndroid)
                   CustomCard(

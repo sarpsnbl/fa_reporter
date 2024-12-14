@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'dart:ui' as ui;
 
 import 'package:camera/camera.dart';
+import 'package:fa_reporter/main.dart';
 import 'package:fa_reporter/utils/previous_id.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
@@ -30,7 +31,7 @@ class TextRecognizerPainter extends CustomPainter {
     final Paint paint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3.0
-      ..color = Colors.lightGreenAccent;
+      ..color = corpYellow;
 
     final Paint background = Paint()..color = const Color(0x99000000);
 
@@ -42,7 +43,7 @@ class TextRecognizerPainter extends CustomPainter {
             textDirection: TextDirection.ltr),
       );
       builder.pushStyle(
-          ui.TextStyle(color: Colors.lightGreenAccent, background: background));
+          ui.TextStyle(color: corpYellow, background: background));
       builder.addText(textBlock.text);
       builder.pop();
 
