@@ -4,8 +4,8 @@ import 'package:google_mlkit_commons/google_mlkit_commons.dart';
 import 'camera_view.dart';
 
 class DetectorView extends StatelessWidget {
-  DetectorView({
-    Key? key,
+  const DetectorView({
+    super.key,
     required this.title,
     required this.onImage,
     this.customPaint,
@@ -13,7 +13,7 @@ class DetectorView extends StatelessWidget {
     this.initialCameraLensDirection = CameraLensDirection.back,
     this.onCameraFeedReady,
     this.onCameraLensDirectionChanged,
-  }) : super(key: key);
+  });
 
   final String title;
   final CustomPaint? customPaint;

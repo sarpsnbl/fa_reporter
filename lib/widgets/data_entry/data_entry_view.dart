@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:fa_reporter/excel/excel_processor.dart';
 import 'package:fa_reporter/utils/user_getset.dart';
 
-// TODO: Debug all this stuff
-
 class DataEntryView extends StatelessWidget {
   final String recognizedID;
 
@@ -23,24 +21,24 @@ class DataEntryView extends StatelessWidget {
             children: [
               Text(
                 "$recognizedID Numaralı Nesne Bulunamadı!",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.red,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => TextRecognizerView(),
+                      builder: (context) => const TextRecognizerView(),
                     ),
                   );
                 },
-                child: Text('Yeniden Tara'),
+                child: const Text('Yeniden Tara'),
               ),
             ],
           ),
@@ -54,7 +52,7 @@ class DataEntryView extends StatelessWidget {
 
     return Scaffold(
   appBar: AppBar(
-    title: Text("Demirbaş Girişi"),
+    title: const Text("Demirbaş Girişi"),
   ),
   body: SingleChildScrollView(
     padding: const EdgeInsets.all(16.0),
@@ -74,8 +72,8 @@ class DataEntryView extends StatelessWidget {
             _buildTableRow('Nesne Açıklaması:', data[1]),
             TableRow(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Text(
                     'Statü:',
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -93,7 +91,7 @@ class DataEntryView extends StatelessWidget {
                     onChanged: (value) {
                       data = modifyExcel(2, value, data);
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       contentPadding: EdgeInsets.all(8.0),
                       border: OutlineInputBorder(),
                     ),
@@ -111,10 +109,10 @@ class DataEntryView extends StatelessWidget {
             _buildTableRow('Sayım Numarası:', data[10]),
           ],
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         ElevatedButton(
           style: TextButton.styleFrom(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           ),
           onPressed: () {
             var report = getExcelEntries();
@@ -126,7 +124,7 @@ class DataEntryView extends StatelessWidget {
               ),
             );
           },
-          child: Text('Nesneyi Kaydet', style: TextStyle(color: Colors.black)),
+          child: const Text('Nesneyi Kaydet', style: TextStyle(color: Colors.black)),
         ),
       ],
     ),
@@ -145,7 +143,7 @@ TableRow _buildTableRow(String label, String value) {
         padding: const EdgeInsets.all(8.0),
         child: Text(
           label,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
       Padding(

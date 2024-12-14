@@ -3,6 +3,7 @@ import 'package:excel/excel.dart';
 import 'package:fa_reporter/utils/app_directory_getset.dart';
 import 'package:path_provider/path_provider.dart';
 
+// ignore: prefer_typing_uninitialized_variables
 var files;
 
 getFiles() {
@@ -35,6 +36,7 @@ Future<List<File>> loadFilesFromDirectory() async {
 File saveFile(Excel excel, filename) {
   var path = getAppDirectory();
   var fileBytes = excel.save();
+  // ignore: prefer_typing_uninitialized_variables
   var finalFile;
 
   if (fileBytes != null) {

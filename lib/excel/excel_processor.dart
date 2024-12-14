@@ -1,13 +1,10 @@
 import 'dart:io';
 import 'package:excel/excel.dart';
-import 'package:fa_reporter/utils/app_directory_getset.dart';
 import 'package:fa_reporter/utils/excel_getset.dart';
 import 'package:fa_reporter/utils/file_load_save.dart';
 import 'package:fa_reporter/utils/user_getset.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:path_provider/path_provider.dart';
 
-var id = "253030040";
+var id = "253030030";
 var wantedColumns = [
   "Nesne",
   "Nesne Açıklaması",
@@ -96,6 +93,7 @@ List<TextCellValue?> getRowById(Excel excel, String id) {
 File writeExcelReport(List<List<TextCellValue?>> rows) {
   var newFilename = '/output.xlsx';
   String from = 'output';
+  // ignore: prefer_interpolation_to_compose_strings
   String replace = 'sayim' + getTollNumber() + '_' + getUserCurrentDate();
   var finalFileName = newFilename.replaceAll(from, replace);
 

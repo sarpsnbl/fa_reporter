@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 class DetectedIDDialog extends StatefulWidget {
   final String recognizedID;
 
-  const DetectedIDDialog({required this.recognizedID, Key? key}) : super(key: key);
+  const DetectedIDDialog({required this.recognizedID, super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _DetectedIDDialogState createState() => _DetectedIDDialogState();
 }
 
@@ -28,15 +29,15 @@ class _DetectedIDDialogState extends State<DetectedIDDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Bulunan Nesne"),
+      title: const Text("Bulunan Nesne"),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("Bulunan Nesne Numarası:"),
-          SizedBox(height: 16),
+          const Text("Bulunan Nesne Numarası:"),
+          const SizedBox(height: 16),
           TextField(
             controller: _controller, // Allow editing of the ID
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: "Nesne Numarasını Düzenle",
             ),
             keyboardType: TextInputType.text,
@@ -52,7 +53,7 @@ class _DetectedIDDialogState extends State<DetectedIDDialog> {
               MaterialPageRoute(builder: (context) => DataEntryView(recognizedID: _controller.text)),
             );
           },
-          child: Text("OK"),
+          child: const Text("OK"),
         )
       ],
     );

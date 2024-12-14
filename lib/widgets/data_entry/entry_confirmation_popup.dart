@@ -6,13 +6,12 @@ import 'package:flutter/material.dart';
 class EntryConfirmationPopup extends StatelessWidget {
   final String recognizedID;
 
-  const EntryConfirmationPopup({required this.recognizedID, Key? key})
-      : super(key: key);
+  const EntryConfirmationPopup({required this.recognizedID, super.key});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Kaydedildi'),
+      title: const Text('Kaydedildi'),
       content: Text('Nesne "$recognizedID" kaydedildi.'),
       actions: [
         TextButton(
@@ -20,20 +19,20 @@ class EntryConfirmationPopup extends StatelessWidget {
             
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => TextRecognizerView()),
+              MaterialPageRoute(builder: (context) => const TextRecognizerView()),
             );
           },
-          child: Text('Sonraki Demirbaşı Tara'),
+          child: const Text('Sonraki Demirbaşı Tara'),
         ),
         TextButton(
           onPressed: () {
             
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => PreviousEntriesView()), // Navigate to PreviousEntriesView
+              MaterialPageRoute(builder: (context) => const PreviousEntriesView()), // Navigate to PreviousEntriesView
             );
           },
-          child: Text('Önceki Tarananları Gör'),
+          child: const Text('Önceki Tarananları Gör'),
         ),
         TextButton(
           onPressed: () {
@@ -41,10 +40,10 @@ class EntryConfirmationPopup extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => EndInventoryCountingView()),
+                  builder: (context) => const EndInventoryCountingView()),
             );
           },
-          child: Text('Sayımı Bitir'),
+          child: const Text('Sayımı Bitir'),
         ),
       ],
     );

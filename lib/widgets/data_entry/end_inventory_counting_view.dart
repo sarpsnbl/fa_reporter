@@ -7,7 +7,10 @@ import 'package:fa_reporter/widgets/entry_screen/first_screen.dart';
 import 'package:flutter/material.dart';
 
 class EndInventoryCountingView extends StatefulWidget {
+  const EndInventoryCountingView({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _EndInventoryCountingViewState createState() =>
       _EndInventoryCountingViewState();
 }

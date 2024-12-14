@@ -1,17 +1,11 @@
-import 'package:fa_reporter/excel/excel_share.dart';
-import 'package:fa_reporter/excel/excel_processor.dart';
 import 'package:fa_reporter/utils/app_directory_getset.dart';
 import 'package:fa_reporter/utils/excel_getset.dart';
 import 'package:fa_reporter/utils/file_load_save.dart';
 import 'package:fa_reporter/widgets/entry_screen/first_screen.dart';
 import 'package:flutter/material.dart';
-import 'widgets/ocr/text_detector_view.dart';
-import 'dart:io';
-import 'package:excel/excel.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
 
-var corpYellow = Color.fromRGBO(252, 217, 1, 1);
+var corpYellow = const Color.fromRGBO(252, 217, 1, 1);
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,7 +61,7 @@ class MyApp extends StatelessWidget {
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
             foregroundColor: Colors.black,
-            side: BorderSide(color: Colors.black, width: 2),
+            side: const BorderSide(color: Colors.black, width: 2),
           ),
         ),
 
@@ -89,11 +83,11 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.white,
         ),
 
-        checkboxTheme: CheckboxThemeData(
+        checkboxTheme: const CheckboxThemeData(
           fillColor: WidgetStatePropertyAll(Colors.black),
         ),
       ),
-      home: Home(),
+      home: const Home(),
     );
   }
 }
@@ -103,9 +97,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var screenHeight = MediaQuery.of(context).size.height;
-    var keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
-    return Scaffold(
+    return const Scaffold(
       
       resizeToAvoidBottomInset: true,
       body:

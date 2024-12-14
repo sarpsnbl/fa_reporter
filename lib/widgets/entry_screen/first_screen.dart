@@ -9,7 +9,10 @@ import 'package:fa_reporter/widgets/ocr/text_detector_view.dart';
 import 'package:flutter/material.dart'; // Import the PreviousDataView class
 
 class FirstScreen extends StatefulWidget {
+  const FirstScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _FirstScreenState createState() => _FirstScreenState();
 }
 

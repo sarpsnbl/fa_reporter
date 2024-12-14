@@ -2,13 +2,15 @@
 import 'package:flutter/material.dart';
 
 class PreviousEntriesView extends StatelessWidget {
+  const PreviousEntriesView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Önceki Tarananlar'),
+        title: const Text('Önceki Tarananlar'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Burada önceki tarananlar listelenecek.'),
       ),
     );

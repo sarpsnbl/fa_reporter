@@ -128,6 +128,7 @@ class _GalleryViewState extends State<GalleryView> {
         .toList();
 
     showDialog(
+        // ignore: use_build_context_synchronously
         context: context,
         builder: (BuildContext context) {
           return Dialog(

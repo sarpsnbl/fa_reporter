@@ -7,13 +7,14 @@ import 'detector_view.dart';
 import 'text_detector_painter.dart';
 
 class TextRecognizerView extends StatefulWidget {
+  const TextRecognizerView({super.key});
+
   @override
   State<TextRecognizerView> createState() => _TextRecognizerViewState();
 }
 
 class _TextRecognizerViewState extends State<TextRecognizerView> {
-  var _script = TextRecognitionScript.latin;
-  var _textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
+  final _textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
   bool _canProcess = true;
   bool _isBusy = false;
   CustomPaint? _customPaint;
@@ -59,32 +60,6 @@ class _TextRecognizerViewState extends State<TextRecognizerView> {
     );
   }
 
-  Widget _buildDropdown() => DropdownButton<TextRecognitionScript>(
-        value: _script,
-        icon: const Icon(Icons.arrow_downward),
-        elevation: 16,
-        style: const TextStyle(color: Colors.blue),
-        underline: Container(
-          height: 2,
-          color: Colors.blue,
-        ),
-        onChanged: (TextRecognitionScript? script) {
-          if (script != null) {
-            setState(() {
-              _script = script;
-              _textRecognizer.close();
-              _textRecognizer = TextRecognizer(script: _script);
-            });
-          }
-        },
-        items: TextRecognitionScript.values
-            .map<DropdownMenuItem<TextRecognitionScript>>((script) {
-          return DropdownMenuItem<TextRecognitionScript>(
-            value: script,
-            child: Text(script.name),
-          );
-        }).toList(),
-      );
 
   Future<void> _processImage(InputImage inputImage) async {
     if (!_canProcess) return;
@@ -106,7 +81,6 @@ class _TextRecognizerViewState extends State<TextRecognizerView> {
       _customPaint = CustomPaint(painter: painter);
     } else {
       _text = 'Recognized text:\n\n${recognizedText.text}';
-      // TODO: set _customPaint to draw boundingRect on top of image
       _customPaint = null;
     }
     _isBusy = false;
