@@ -40,24 +40,6 @@ List<String> beginExcel(recognizedID) {
   return row;
 }
 
-Future<Excel> readExcel(String assetPath) async {
-  try {
-    final byteData = await rootBundle.load(assetPath);
-
-    final tempDir = await getTemporaryDirectory();
-    final tempFilePath = '${tempDir.path}/temp_excel.xlsx';
-    final tempFile = File(tempFilePath);
-    await tempFile.writeAsBytes(byteData.buffer.asUint8List());
-
-    final bytes = tempFile.readAsBytesSync();
-    final excel = Excel.decodeBytes(bytes);
-    return excel;
-  } catch (e) {
-    print('Error reading Excel file: $e');
-    rethrow;
-  }
-}
-
 File saveReport() {
   List<List<String>> excelEntries = getExcelEntries();
 
