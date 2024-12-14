@@ -4,8 +4,8 @@
     
     <application
         android:name="${applicationName}"
-        android:label="ML Kit in Flutter"
-        android:icon="@mipmap/ic_launcher"
+        android:label="KanSay"
+        android:icon="@drawable/logo"
         android:enableOnBackInvokedCallback="true">
         <activity
             android:name=".MainActivity"
