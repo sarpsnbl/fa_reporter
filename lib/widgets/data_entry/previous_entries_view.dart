@@ -5,6 +5,7 @@ class PreviousEntriesView extends StatefulWidget {
   const PreviousEntriesView({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _PreviousEntriesViewState createState() => _PreviousEntriesViewState();
 }
 
@@ -70,8 +71,8 @@ class _PreviousEntriesViewState extends State<PreviousEntriesView> {
               child: Column(
                 children: [
                   Card(
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 8, horizontal: 16),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
@@ -90,8 +91,9 @@ class _PreviousEntriesViewState extends State<PreviousEntriesView> {
                                   const EdgeInsets.symmetric(vertical: 8.0),
                               child: colIndex == 2
                                   ? DropdownButtonFormField<String>(
-                                      value: editableEntries[selectedEntryIndex!]
-                                          [colIndex],
+                                      value:
+                                          editableEntries[selectedEntryIndex!]
+                                              [colIndex],
                                       items: statusOptions
                                           .map((status) =>
                                               DropdownMenuItem<String>(

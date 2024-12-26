@@ -1,9 +1,7 @@
-import 'package:fa_reporter/utils/user_getset.dart';
 import 'package:fa_reporter/widgets/data_entry/end_inventory_counting_view.dart';
 import 'package:fa_reporter/widgets/data_entry/previous_entries_view.dart'; // Import your new view here
 import 'package:fa_reporter/widgets/ocr/text_detector_view.dart';
 import 'package:flutter/material.dart';
-
 
 class EntryConfirmationPopup extends StatelessWidget {
   final String recognizedID;
@@ -18,27 +16,27 @@ class EntryConfirmationPopup extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () {
-            
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => TextRecognizerView()),
+              MaterialPageRoute(
+                  builder: (context) => const TextRecognizerView()),
             );
           },
           child: const Text('Sonraki Demirbaşı Tara'),
         ),
         TextButton(
           onPressed: () {
-            
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => PreviousEntriesView()), // Navigate to PreviousEntriesView
+              MaterialPageRoute(
+                  builder: (context) =>
+                      const PreviousEntriesView()), // Navigate to PreviousEntriesView
             );
           },
           child: const Text('Önceki Tarananları Gör'),
         ),
         TextButton(
           onPressed: () {
-            
             Navigator.push(
               context,
               MaterialPageRoute(

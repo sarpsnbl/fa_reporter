@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:fa_reporter/main.dart';
 import 'package:fa_reporter/utils/user_getset.dart';
 import 'package:fa_reporter/widgets/data_entry/previous_data_view.dart';
 import 'package:fa_reporter/widgets/ocr/text_detector_view.dart';
@@ -10,6 +9,7 @@ class FirstScreen extends StatefulWidget {
   const FirstScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _FirstScreenState createState() => _FirstScreenState();
 }
 
@@ -19,7 +19,6 @@ class _FirstScreenState extends State<FirstScreen> {
       TextEditingController();
   String? selectedLocation;
 
-  
   bool isNameEmpty = false;
   bool isInventoryEmpty = false;
   bool isLocationEmpty = false;
@@ -31,7 +30,6 @@ class _FirstScreenState extends State<FirstScreen> {
       isLocationEmpty = selectedLocation == null;
     });
 
-    
     if (isNameEmpty || isInventoryEmpty || isLocationEmpty) {
       return;
     }
@@ -41,7 +39,7 @@ class _FirstScreenState extends State<FirstScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => TextRecognizerView(),
+          builder: (context) => const TextRecognizerView(),
         ),
       );
     }
@@ -52,7 +50,7 @@ class _FirstScreenState extends State<FirstScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "KanSay Rapor",
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -66,16 +64,16 @@ class _FirstScreenState extends State<FirstScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Hoş Geldiniz.",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 20),
-              Text("İsminiz:"),
+              const SizedBox(height: 20),
+              const Text("İsminiz:"),
               TextField(
                 controller: nameController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   hintText: "İsminizi girin",
                   errorText: isNameEmpty ? "Lütfen isminizi giriniz!" : null,
                 ),
@@ -86,12 +84,12 @@ class _FirstScreenState extends State<FirstScreen> {
                   setUserName(value);
                 },
               ),
-              SizedBox(height: 20),
-              Text("Sayım No:"),
+              const SizedBox(height: 20),
+              const Text("Sayım No:"),
               TextField(
                 controller: inventoryNumberController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   hintText: "Sayım numarasını girin",
                   errorText: isInventoryEmpty
                       ? "Lütfen sayım numarasını giriniz!"
@@ -105,16 +103,16 @@ class _FirstScreenState extends State<FirstScreen> {
                   setTollNumber(value);
                 },
               ),
-              SizedBox(height: 20),
-              Text("Sayım Lokasyonunuzu Seçin:"),
+              const SizedBox(height: 20),
+              const Text("Sayım Lokasyonunuzu Seçin:"),
               DropdownButtonFormField<String>(
                 value: selectedLocation,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   errorText:
                       isLocationEmpty ? "Lütfen bir lokasyon seçiniz!" : null,
                 ),
-                hint: Text("Seçin"),
+                hint: const Text("Seçin"),
                 isExpanded: true,
                 items: <String>[
                   'ARGE MÜDÜRLÜK',
@@ -135,7 +133,7 @@ class _FirstScreenState extends State<FirstScreen> {
                   setUserLocation(selectedLocation);
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text("Tarih: ${getUserCurrentDate()}"),
               ExpansionTile(
                 title: const Text(
@@ -151,18 +149,12 @@ class _FirstScreenState extends State<FirstScreen> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  if (nameController.text.isEmpty ||
-                      inventoryNumberController.text.isEmpty ||
-                      selectedLocation == null) {
-                    validateForm();
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PreviousDataView(),
-                      ),
-                    );
-                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PreviousDataView(),
+                    ),
+                  );
                 },
                 child: const Text('Önceki Sayımlarım'),
               ),
