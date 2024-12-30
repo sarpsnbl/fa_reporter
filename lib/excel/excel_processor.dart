@@ -23,18 +23,19 @@ void main(List<String> args) {
   beginExcel(id);
 }
 
-List<String> beginExcel(recognizedID) {
+List<List<String>> beginExcel(recognizedID) {
   Excel excel = getAsset();
 
-  List<TextCellValue?> entry = getRowById(excel, recognizedID);
+  List<List<TextCellValue?>> entries = getRowById(excel, recognizedID);
 
-  List<String> row = [];
+  List<List<String>> rows = [];
+  for (List<TextCellValue?> entry in entries) {
+    if (entry.isNotEmpty) {
+      rows.add(entry.map((cell) => cell.toString()).toList());
+    }
+  }
 
-  if (entry.isNotEmpty) {
-    row = entry.map((cell) => cell.toString()).toList();
-  } else {}
-
-  return row;
+  return rows;
 }
 
 File saveReport() {
@@ -54,7 +55,9 @@ List<String> modifyExcel(column, value, data) {
   return data;
 }
 
-List<TextCellValue?> getRowById(Excel excel, String id) {
+List<List<TextCellValue?>> getRowById(Excel excel, String id) {
+  List<List<TextCellValue?>> rows = [];
+
   for (var table in excel.tables.keys) {
     for (var row in excel.tables[table]!.rows) {
       if (row.isNotEmpty && row[0]?.value.toString() == id) {
@@ -83,11 +86,11 @@ List<TextCellValue?> getRowById(Excel excel, String id) {
           }
         }
         wantedRow.add(TextCellValue(""));
-        return wantedRow;
+        rows.add(wantedRow);
       }
     }
   }
-  return [];
+  return rows;
 }
 
 File writeExcelReport(List<List<TextCellValue?>> rows) {

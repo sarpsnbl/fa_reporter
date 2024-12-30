@@ -4,6 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:fa_reporter/excel/excel_processor.dart';
 import 'package:fa_reporter/utils/user_getset.dart';
 
+const Map columns = {
+  "Nesne": 0,
+  "Nesne Açıklaması": 1,
+  "Statü:": 2,
+  "Nesne Grubu Açıklaması": 3,
+  "GY": 4,
+  "GY Açıklama": 5,
+  "IFS Olması Gereken Lokasyon": 6,
+  "Sayım Lokasyonu": 7,
+  "Sayım Doğrulama": 8,
+  "Sayım Tarihi": 9,
+  "Sayım Numarası": 10
+};
+
 class DataEntryView extends StatelessWidget {
   final String recognizedID;
 
@@ -11,7 +25,14 @@ class DataEntryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> data = beginExcel(recognizedID);
+    List<String> data = [];
+    List<List<String>> rows = beginExcel(recognizedID);
+    if (rows.length == 1) {
+      data = rows[0];
+    } else {
+      //TODO:
+      // send user to item selection screen and then assign data from its return
+    }
 
     if (data.isEmpty) {
       return Scaffold(
@@ -46,93 +67,101 @@ class DataEntryView extends StatelessWidget {
       );
     }
 
-    data[9] = getUserCurrentDate();
-    data[7] = getUserLocation();
-    data[10] = getTollNumber();
+    data[columns['Sayım Tarihi']] = getUserCurrentDate();
+    data[columns['Sayım Lokasyonu']] = getUserLocation();
+    data[columns['Sayım Numarası']] = getTollNumber();
 
     return Scaffold(
-  appBar: AppBar(
-    title: const Text("Demirbaş Girişi"),
-  ),
-  body: SingleChildScrollView(
-    padding: const EdgeInsets.all(16.0),
-    child: Column(
-      children: [
-        Table(
-          border: TableBorder.all(
-            color: Colors.grey,
-            width: 1.0,
-          ),
-          columnWidths: const {
-            0: FlexColumnWidth(1),
-            1: FlexColumnWidth(2),
-          },
+      appBar: AppBar(
+        title: const Text("Demirbaş Girişi"),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
           children: [
-            _buildTableRow('Nesne Numarası:', recognizedID),
-            _buildTableRow('Nesne Açıklaması:', data[1]),
-            TableRow(
+            Table(
+              border: TableBorder.all(
+                color: Colors.grey,
+                width: 1.0,
+              ),
+              columnWidths: const {
+                0: FlexColumnWidth(1),
+                1: FlexColumnWidth(2),
+              },
               children: [
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'Statü:',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: DropdownButtonFormField<String>(
-                    items: ['Sağlam', 'Hurda', 'Arızalı', 'Kayıp'].map((status) {
-                      return DropdownMenuItem(
-                        value: status,
-                        child: Text(status),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      data = modifyExcel(2, value, data);
-                    },
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.all(8.0),
-                      border: OutlineInputBorder(),
+                _buildTableRow('Nesne Numarası:', recognizedID),
+                _buildTableRow(
+                    'Nesne Açıklaması:', data[columns['Nesne Açıklaması']]),
+                _buildTableRow('Nesne Grubu Açıklaması:',
+                    data[columns['Nesne Grubu Açıklaması']]),
+                _buildTableRow('GY:', data[columns['GY']]),
+                _buildTableRow('GY Açıklama:', data[columns['GY Açıklama']]),
+                _buildTableRow('IFS Olması Gereken Lokasyon:',
+                    data[columns['IFS Olması Gereken Lokasyon']]),
+                _buildTableRow(
+                    'Sayım Lokasyonu:', data[columns['Sayım Lokasyonu']]),
+                _buildTableRow(
+                    'Sayım Doğrulama:', data[columns['Sayım Doğrulama']]),
+                TableRow(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Statü:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: DropdownButtonFormField<String>(
+                        items: ['Sağlam', 'Hurda', 'Arızalı', 'Kayıp']
+                            .map((status) {
+                          return DropdownMenuItem(
+                            value: status,
+                            child: Text(status),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          data = modifyExcel(columns['Statü'], value, data);
+                        },
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.all(8.0),
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                _buildTableRow('Sayım Tarihi:', data[columns['Sayım Tarihi']]),
+                _buildTableRow(
+                  'Sayım Numarası:',
+                  data[columns['Sayım Numarası']],
                 ),
               ],
             ),
-            _buildTableRow('Nesne Grubu Açıklaması:', data[3]),
-            _buildTableRow('GY:', data[4]),
-            _buildTableRow('GY Açıklama:', data[5]),
-            _buildTableRow('IFS Olması Gereken Lokasyon:', data[6]),
-            _buildTableRow('Sayım Lokasyonu:', data[7]),
-            _buildTableRow('Sayım Doğrulama:', data[8]),
-            _buildTableRow('Sayım Tarihi:', data[9]),
-            _buildTableRow('Sayım Numarası:', data[10]),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              style: TextButton.styleFrom(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero),
+              ),
+              onPressed: () {
+                var report = getExcelEntries();
+                report.add(data);
+                showDialog(
+                  context: context,
+                  builder: (context) => EntryConfirmationPopup(
+                    recognizedID: recognizedID,
+                  ),
+                );
+              },
+              child: const Text('Nesneyi Kaydet',
+                  style: TextStyle(color: Colors.black)),
+            ),
           ],
         ),
-        const SizedBox(height: 20),
-        ElevatedButton(
-          style: TextButton.styleFrom(
-            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-          ),
-          onPressed: () {
-            var report = getExcelEntries();
-            report.add(data);
-            showDialog(
-              context: context,
-              builder: (context) => EntryConfirmationPopup(
-                recognizedID: recognizedID,
-              ),
-            );
-          },
-          child: const Text('Nesneyi Kaydet', style: TextStyle(color: Colors.black)),
-        ),
-      ],
-    ),
-  ),
-);
-
-
-
+      ),
+    );
   }
 }
 
