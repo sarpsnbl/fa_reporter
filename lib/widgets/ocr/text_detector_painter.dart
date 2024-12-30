@@ -186,6 +186,7 @@ class TextRecognizerPainter extends CustomPainter {
     if (!(recognizedID == getPreviousID())) {
       if (recognizedID != "-1" && !isDetectedIDDialogShown) {
         setPreviousID(recognizedID);
+        print(recognizedID);
         Future.delayed(Duration.zero, () {
           showDetectedIDDialog(recognizedID);
         });
@@ -200,13 +201,26 @@ class TextRecognizerPainter extends CustomPainter {
 
   //returns -1 if no id is recognized. Returns the 10-digit ID of the fixed asset otherwise.
   String idDetected(RecognizedText recognizedText) {
-    // Regular expression to match exactly 10 consecutive digits
-    final regex = RegExp(r'\b\d{9}\b');
+    // List of regular expressions to match various ID formats
+    final regexes = [
+      RegExp(r'\b\d{9}\b'),               // NNNNNNNNN
+      RegExp(r'\b\d{10}\b'),              // NNNNNNNNNN
+      RegExp(r'\*\*\s*'),                 // **
+      RegExp(r'\b\d{8}[A-Za-z]\b'),       // NNNNNNNNNL
+      RegExp(r'\b[A-Za-z]{3}-\d{4}\b'),   // LLL-NNNN
+      RegExp(r'\b[A-Za-z]{6}-\d{3}\b'),   // LLLLLL-NNN
+    ];
 
-    // Find the first match of the 10-digit ID
-    final match = regex.firstMatch(recognizedText.text);
+    // Iterate through the regexes and find the first match
+    for (final regex in regexes) {
+      final match = regex.firstMatch(recognizedText.text);
+      if (match != null) {
+        return match.group(0)!; // Return the matched ID
+      }
+    }
 
-    // Return the ID number if found, otherwise return "-1"
-    return match != null ? match.group(0)! : "-1";
+    // If no match is found, return "-1"
+    return "-1";
   }
+
 }
