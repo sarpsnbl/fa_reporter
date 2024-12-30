@@ -68,7 +68,7 @@ List<TextCellValue?> getRowById(Excel excel, String id) {
                     TextCellValue(row[i]!.value.toString()));
               } else {
                 wantedRow.add(TextCellValue(row[i]!.value.toString()));
-              }
+              } 
               if (wantedColumns[wantedRow.length + 1] == "Sayım Doğrulama") {
                 String value;
                 value = wantedRow[6].value.toString() == getUserLocation()
@@ -94,7 +94,7 @@ File writeExcelReport(List<List<TextCellValue?>> rows) {
   var newFilename = '/output.xlsx';
   String from = 'output';
   // ignore: prefer_interpolation_to_compose_strings
-  String replace = 'sayim' + getTollNumber() + '_' + getUserCurrentDate();
+  String replace = 'sayim' + getTollNumber() + '_' + getUserCurrentDate() + '_' + getUserName();
   var finalFileName = newFilename.replaceAll(from, replace);
 
   Excel excel = Excel.createExcel();
