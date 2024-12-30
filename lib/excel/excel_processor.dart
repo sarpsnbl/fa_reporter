@@ -56,34 +56,50 @@ List<String> modifyExcel(column, value, data) {
 
 List<TextCellValue?> getRowById(Excel excel, String id) {
   for (var table in excel.tables.keys) {
-    for (var row in excel.tables[table]!.rows) {
-      if (row.isNotEmpty && row[0]?.value.toString() == id) {
-        List<TextCellValue> wantedRow = [];
-        for (int i = 0; i < excel.tables[table]!.maxColumns; i++) {
-          for (int j = 0; j < wantedColumns.length; j++) {
-            if (excel.tables[table]!.rows[0][i]?.value.toString() ==
-                wantedColumns[j]) {
-              if (wantedColumns[j] == "Statü:") {
-                wantedRow.insert(wantedRow.length - 1,
-                    TextCellValue(row[i]!.value.toString()));
-              } else {
-                wantedRow.add(TextCellValue(row[i]!.value.toString()));
-              } 
-              if (wantedColumns[wantedRow.length + 1] == "Sayım Doğrulama") {
-                String value;
-                value = wantedRow[6].value.toString() == getUserLocation()
-                    ? "TRUE"
-                    : "FALSE";
-                wantedRow.add(TextCellValue(""));
-                wantedRow.add(TextCellValue(""));
-                wantedRow.insert(
-                    wantedRow.length - 1, TextCellValue(value.toString()));
+    var rows = excel.tables[table]!.rows;
+
+    int low = 0;
+    int high = rows.length - 1;
+
+    while (low <= high) {
+      int mid = (low + high) ~/ 2;
+      if (rows[mid].isNotEmpty) {
+        String? midValue = rows[mid][0]?.value.toString();
+
+        if (midValue == id) {
+          List<TextCellValue> wantedRow = [];
+          for (int i = 0; i < excel.tables[table]!.maxColumns; i++) {
+            for (int j = 0; j < wantedColumns.length; j++) {
+              if (excel.tables[table]!.rows[0][i]?.value.toString() ==
+                  wantedColumns[j]) {
+                if (wantedColumns[j] == "Statü:") {
+                  wantedRow.insert(wantedRow.length - 1,
+                      TextCellValue(rows[mid][i]!.value.toString()));
+                } else {
+                  wantedRow.add(TextCellValue(rows[mid][i]!.value.toString()));
+                }
+                if (wantedColumns[wantedRow.length + 1] == "Sayım Doğrulama") {
+                  String value;
+                  value = wantedRow[6].value.toString() == getUserLocation()
+                      ? "TRUE"
+                      : "FALSE";
+                  wantedRow.add(TextCellValue(""));
+                  wantedRow.add(TextCellValue(""));
+                  wantedRow.insert(
+                      wantedRow.length - 1, TextCellValue(value.toString()));
+                }
               }
             }
           }
+          wantedRow.add(TextCellValue(""));
+          return wantedRow;
+        } else if (midValue == null || midValue.compareTo(id) < 0) {
+          low = mid + 1;
+        } else {
+          high = mid - 1;
         }
-        wantedRow.add(TextCellValue(""));
-        return wantedRow;
+      } else {
+        low = mid + 1;
       }
     }
   }
@@ -94,7 +110,12 @@ File writeExcelReport(List<List<TextCellValue?>> rows) {
   var newFilename = '/output.xlsx';
   String from = 'output';
   // ignore: prefer_interpolation_to_compose_strings
-  String replace = 'sayim' + getTollNumber() + '_' + getUserCurrentDate() + '_' + getUserName();
+  String replace = 'sayim' +
+      getTollNumber() +
+      '_' +
+      getUserCurrentDate() +
+      '_' +
+      getUserName();
   var finalFileName = newFilename.replaceAll(from, replace);
 
   Excel excel = Excel.createExcel();
