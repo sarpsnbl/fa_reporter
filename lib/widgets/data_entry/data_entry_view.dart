@@ -1,12 +1,10 @@
 import 'package:fa_reporter/widgets/data_entry/end_inventory_counting_view.dart';
 import 'package:fa_reporter/widgets/data_entry/previous_entries_view.dart';
-import 'package:fa_reporter/widgets/entry_screen/first_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fa_reporter/excel/excel_processor.dart';
 import 'package:fa_reporter/utils/user_getset.dart';
 import 'package:fa_reporter/widgets/ocr/text_detector_view.dart';
 import 'package:fa_reporter/widgets/data_entry/entry_confirmation_popup.dart';
-
 
 const Map columns = {
   "Nesne": 0,
@@ -35,11 +33,7 @@ class DataEntryView extends StatelessWidget {
     List<List<String>> rows = beginExcel(recognizedID);
     if (rows.length == 1) {
       data = rows[0];
-    } else {
-      //TODO:
-      // send user to item selection screen and then assign data from its return
     }
-
 
     if (data.isEmpty) {
       return Scaffold(
@@ -86,7 +80,6 @@ class DataEntryView extends StatelessWidget {
       );
     }
 
-
     if (previouslyScannedItems.contains(recognizedID)) {
       return Scaffold(
         body: Center(
@@ -131,7 +124,7 @@ class DataEntryView extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>  EndInventoryCountingView(),
+                      builder: (context) => EndInventoryCountingView(),
                     ),
                   );
                 },
