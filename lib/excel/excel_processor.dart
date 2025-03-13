@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:excel/excel.dart';
 import 'package:fa_reporter/utils/excel_getset.dart';
 import 'package:fa_reporter/utils/file_load_save.dart';
-import 'package:fa_reporter/utils/previous_id.dart';
 import 'package:fa_reporter/utils/user_getset.dart';
 
 var id = "253030030";
@@ -113,6 +112,5 @@ File writeExcelReport(List<List<TextCellValue?>> rows) {
     sheet.appendRow(row);
   }
 
-  setPreviousID("-1");
   return saveFile(excel, finalFileName);
 }
