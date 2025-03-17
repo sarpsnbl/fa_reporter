@@ -1,16 +1,10 @@
 # fa_reporter
 
-A new Flutter project.
+KanSay
+KanSay is a Flutter-based mobile application designed for Kanat Boya to efficiently scan fixed asset IDs using Google ML Kit OCR and generate Excel reports summarizing asset statuses.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Features
+OCR Scanning: Uses Google ML Kit to scan fixed asset IDs.
+Excel Reporting: Generates structured reports detailing asset conditions.
+Offline Support: Works without an internet connection after setup.
+Minimal UI: Fast and efficient scanning process for factory environments.
