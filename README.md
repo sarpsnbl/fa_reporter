@@ -1,6 +1,8 @@
 # KanSay
 
-KanSay is a Flutter-based mobile application designed for and deployed at the Kanat Boya factory to streamline, automate, and verify the physical inventory counts of fixed assets. By combining mobile optical character recognition (OCR) and local database processing, KanSay eliminates manual data entry errors and automates report generation.
+A mobile application project for inventory counting and toll reports for Kanat Boya ArGe (R&D). A student group project for Üsimp (Üniversite Sanayi İşbirliği). KanSay is a Flutter-based mobile application designed to efficiently scan fixed asset IDs using Google ML Kit OCR and generate Excel reports summarizing asset statuses.
+
+The application is deployed at the Kanat Boya factory to streamline, automate, and verify the physical inventory counts of fixed assets. By combining mobile optical character recognition (OCR) and local database processing, KanSay eliminates manual data entry errors and automates report generation.
 
 It is designed to assist inventory personnel during routine asset audits, enabling them to scan physical asset tag barcodes or text labels, instantly verify asset locations against target locations in the company's IFS ERP system, and document asset status on the spot.
 
