@@ -27,7 +27,7 @@ class _PreviousEntriesViewState extends State<PreviousEntriesView> {
     "Sayım No",
   ];
 
-  final List<String> statusOptions = ["Sağlam", "Hurda", "Arızalı", "Kayıp"];
+  final List<String> statusOptions = ["SAĞLAM", "HURDA", "ARIZALI", "KAYIP"];
 
   @override
   void initState() {

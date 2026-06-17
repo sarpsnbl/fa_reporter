@@ -1,8 +1,10 @@
-import 'package:fa_reporter/widgets/ocr/text_detector_view.dart';
-import 'package:fa_reporter/widgets/data_entry/entry_confirmation_popup.dart';
+import 'package:fa_reporter/widgets/data_entry/end_inventory_counting_view.dart';
+import 'package:fa_reporter/widgets/data_entry/previous_entries_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fa_reporter/excel/excel_processor.dart';
 import 'package:fa_reporter/utils/user_getset.dart';
+import 'package:fa_reporter/widgets/ocr/text_detector_view.dart';
+import 'package:fa_reporter/widgets/data_entry/entry_confirmation_popup.dart';
 
 const Map columns = {
   "Nesne": 0,
@@ -18,6 +20,8 @@ const Map columns = {
   "Sayım Numarası": 10
 };
 
+List<String> previouslyScannedItems = []; // Taranan nesnelerin listesi
+
 class DataEntryView extends StatelessWidget {
   final String recognizedID;
 
@@ -29,9 +33,6 @@ class DataEntryView extends StatelessWidget {
     List<List<String>> rows = beginExcel(recognizedID);
     if (rows.length == 1) {
       data = rows[0];
-    } else {
-      //TODO:
-      // send user to item selection screen and then assign data from its return
     }
 
     if (data.isEmpty) {
@@ -61,11 +62,81 @@ class DataEntryView extends StatelessWidget {
                 },
                 child: const Text('Yeniden Tara'),
               ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PreviouslyScannedItemsView(),
+                    ),
+                  );
+                },
+                child: const Text('Önceki Taramaları Gör'),
+              ),
             ],
           ),
         ),
       );
     }
+
+    if (previouslyScannedItems.contains(recognizedID)) {
+      return Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "$recognizedID Numaralı Nesne Daha Önce Taranmış!",
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TextRecognizerView(),
+                    ),
+                  );
+                },
+                child: const Text('Taramaya Devam Et'),
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PreviousEntriesView(),
+                    ),
+                  );
+                },
+                child: const Text('Önceki Taramaları Gör'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EndInventoryCountingView(),
+                    ),
+                  );
+                },
+                child: const Text('Taramayı bitir'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    previouslyScannedItems.add(recognizedID);
 
     data[columns['Sayım Tarihi']] = getUserCurrentDate();
     data[columns['Sayım Lokasyonu']] = getUserLocation();
@@ -114,7 +185,7 @@ class DataEntryView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: DropdownButtonFormField<String>(
-                        items: ['Sağlam', 'Hurda', 'Arızalı', 'Kayıp']
+                        items: ['SAĞLAM', 'HURDA', 'ARIZALI', 'KAYIP']
                             .map((status) {
                           return DropdownMenuItem(
                             value: status,
@@ -181,4 +252,21 @@ TableRow _buildTableRow(String label, String value) {
       ),
     ],
   );
+}
+
+class PreviouslyScannedItemsView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Önceki Taranan Nesneler")),
+      body: ListView.builder(
+        itemCount: previouslyScannedItems.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(previouslyScannedItems[index]),
+          );
+        },
+      ),
+    );
+  }
 }
